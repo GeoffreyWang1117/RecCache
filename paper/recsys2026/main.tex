@@ -326,22 +326,19 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 \midrule
 \multirow{4}{*}{ML-1M}
 & 1 & .105 & 79.6\% & 2.2$\times$ & 0\% \\
-\rowcolor{gray!15}
-& 3 &.091 & 91.4\% & 2.2$\times$ & 53.2\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .091 & \cellcolor{gray!15} 91.4\% & \cellcolor{gray!15} 2.2$\times$ & \cellcolor{gray!15} 53.2\% \\
 & 5 & .093 & 94.2\% & 1.0$\times$ & 64.1\% \\
 & 7 & .090 & 96.0\% & 1.0$\times$ & 67.9\% \\
 \midrule
 \multirow{4}{*}{A-Elec.}
 & 1 & .006 & 32.0\% & 2.6$\times$ & 0\% \\
-\rowcolor{gray!15}
-& 3 &.006 & 52.0\% & 3.6$\times$ & 56.5\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .006 & \cellcolor{gray!15} 52.0\% & \cellcolor{gray!15} 3.6$\times$ & \cellcolor{gray!15} 56.5\% \\
 & 5 & .005 & 64.2\% & 3.8$\times$ & 69.8\% \\
 & 7 & .004 & 76.0\% & 3.6$\times$ & 77.9\% \\
 \midrule
 \multirow{2}{*}{MIND}
 & 1 & .021 & 21.0\% & 4.7$\times$ & 0\% \\
-\rowcolor{gray!15}
-& 3 &.019 & 35.0\% & 3.3$\times$ & 46.9\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .019 & \cellcolor{gray!15} 35.0\% & \cellcolor{gray!15} 3.3$\times$ & \cellcolor{gray!15} 46.9\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -427,26 +424,22 @@ Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\
 \multirow{3}{*}{ML-1M}
 & Fresh & .165 & --- & 1$\times$ & .206 \\
 & Static & .091 & 91\% & 2.0$\times$ & .048 \\
-\rowcolor{gray!15}
-& Pool & .088 & 94\% & 1.0$\times$ & \textbf{.053} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .088 & \cellcolor{gray!15} 94\% & \cellcolor{gray!15} 1.0$\times$ & \cellcolor{gray!15} \textbf{.053} \\
 \midrule
 \multirow{3}{*}{A-Elec.}
 & Fresh & .009 & --- & 1$\times$ & .058 \\
 & Static & .006 & 52\% & 3.3$\times$ & .026 \\
-\rowcolor{gray!15}
-& Pool & \textbf{.007} & 61\% & 3.4$\times$ & \textbf{.067} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} \textbf{.007} & \cellcolor{gray!15} 61\% & \cellcolor{gray!15} 3.4$\times$ & \cellcolor{gray!15} \textbf{.067} \\
 \midrule
 \multirow{3}{*}{A-Arts}
 & Fresh & .004 & --- & 1$\times$ & .053 \\
 & Static & .002 & 97\% & 7.6$\times$ & .010 \\
-\rowcolor{gray!15}
-& Pool & .004 & 98\% & 3.2$\times$ & \textbf{.039} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 98\% & \cellcolor{gray!15} 3.2$\times$ & \cellcolor{gray!15} \textbf{.039} \\
 \midrule
 \multirow{3}{*}{MIND}
 & Fresh & .018 & --- & 1$\times$ & .119 \\
 & Static & .019 & 35\% & 4.0$\times$ & .091 \\
-\rowcolor{gray!15}
-& Pool & .017 & 23\% & 2.4$\times$ & \textbf{.113} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .017 & \cellcolor{gray!15} 23\% & \cellcolor{gray!15} 2.4$\times$ & \cellcolor{gray!15} \textbf{.113} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -480,31 +473,28 @@ Table~\ref{tab:s5} and Figure~\ref{fig:coverage} reveal the core tradeoff. Pool 
 & QA-byp. & \textbf{.107} & 78\% & 3.3$\times$ & 0\% & .056 \\
 & Spec. & .095 & 91\% & 1.6$\times$ & 55\% & .056 \\
 \rowcolor{gray!15}
-& Sp.+Pool & .094 & 93\% & 0.7$\times$ & 60\% & \underline{.062} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .094 & \cellcolor{gray!15} 93\% & \cellcolor{gray!15} 0.7$\times$ & \cellcolor{gray!15} 60\% & \cellcolor{gray!15} \underline{.062} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{A-Elec.}}
 & Fresh & .011 & --- & 1$\times$ & --- & .063 \\
 & Naive & .005 & 100\% & 35$\times$ & 0\% & .011 \\
 & QA-byp. & .008 & 9\% & 2.5$\times$ & 0\% & .046 \\
 & Spec. & \textbf{.010} & 59\% & 3.1$\times$ & 56\% & .028 \\
-\rowcolor{gray!15}
-& Sp.+Pool & .007 & 60\% & 2.0$\times$ & 61\% & \underline{.074} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .007 & \cellcolor{gray!15} 60\% & \cellcolor{gray!15} 2.0$\times$ & \cellcolor{gray!15} 61\% & \cellcolor{gray!15} \underline{.074} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{A-Arts}}
 & Fresh & .004 & --- & 1$\times$ & --- & .051 \\
 & Naive & .002 & 100\% & 50$\times$ & 0\% & .010 \\
 & QA-byp. & \textbf{.004} & 65\% & 3.0$\times$ & 0\% & .027 \\
 & Spec. & .002 & 96\% & 6.7$\times$ & 64\% & .010 \\
-\rowcolor{gray!15}
-& Sp.+Pool & .004 & 96\% & 3.6$\times$ & 62\% & \underline{.036} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 96\% & \cellcolor{gray!15} 3.6$\times$ & \cellcolor{gray!15} 62\% & \cellcolor{gray!15} \underline{.036} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{MIND}}
 & Fresh & .014 & --- & 1$\times$ & --- & .113 \\
 & Naive & .010 & 100\% & 52$\times$ & 0\% & .050 \\
 & QA-byp. & .013 & 28\% & 3.7$\times$ & 0\% & .111 \\
 & Spec. & \textbf{.014} & 32\% & 3.8$\times$ & 49\% & .095 \\
-\rowcolor{gray!15}
-& Sp.+Pool & \textbf{.014} & 26\% & 2.1$\times$ & 49\% & \underline{.106} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} \textbf{.014} & \cellcolor{gray!15} 26\% & \cellcolor{gray!15} 2.1$\times$ & \cellcolor{gray!15} 49\% & \cellcolor{gray!15} \underline{.106} \\
 \bottomrule
 \end{tabular}
 \end{table}
