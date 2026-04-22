@@ -311,7 +311,7 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 \paragraph{Protocol.} 3 runs (seeds 42--44), 500 test users. Mean $\pm$ std reported.
 
 %----------------------------------------------------------------------
-\subsection{Multi-Cluster Speculation}
+\subsection{Multi-Cluster Speculation (S1)}
 \label{sec:exp_s1}
 %----------------------------------------------------------------------
 
@@ -346,7 +346,7 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases acceptance across all datasets: ML-1M goes from 80\% ($K$=1) to 96\% ($K$=7). NDCG remains stable. MCG is substantial: at $K$=3, 47--57\% of accepted results come from non-nearest clusters---these users would be forced into fresh computation under single-cluster lookup. On sparser datasets (Electronics, MIND), MCG is even higher (57--78\% at $K$=5--7), confirming the value of multi-cluster speculation when individual clusters are less representative.
 
 %----------------------------------------------------------------------
-\subsection{Acceptance Criterion Comparison}
+\subsection{Acceptance Criterion Comparison (S2)}
 \label{sec:exp_s2}
 %----------------------------------------------------------------------
 
@@ -375,7 +375,7 @@ Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases a
 The cosine criterion trivially accepts all requests (zero MCG). The heuristic is overly conservative on sparse data (9.0\% on Electronics). Only the score-ratio criterion achieves non-zero MCG (54--55\%) because it evaluates acceptance \emph{per item}, not per distance.
 
 %----------------------------------------------------------------------
-\subsection{Quality--Speed Pareto Front}
+\subsection{Quality--Speed Pareto Front (S3)}
 \label{sec:exp_s3}
 %----------------------------------------------------------------------
 
@@ -408,7 +408,7 @@ $\tau$ & NDCG & Accept & Speedup & MCG & Cov. \\
 Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\tau$=0.05, the system accepts all requests with 2.3$\times$ speedup and 55\% quality retention. At $\tau$=0.60, it is selective: 48\% acceptance, 0.9$\times$ speedup, 72\% quality with 3.0$\times$ higher coverage. MCG remains stable ($\sim$43--56\%), confirming it is a consistent empirical pattern of the score-ratio criterion.
 
 %----------------------------------------------------------------------
-\subsection{Pool Retrieval vs Static Cache}
+\subsection{Pool Retrieval vs Static Cache (S5)}
 \label{sec:exp_s5}
 %----------------------------------------------------------------------
 
@@ -454,7 +454,7 @@ Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\
 Table~\ref{tab:s5} and Figure~\ref{fig:coverage} reveal the core tradeoff. Pool retrieval \textbf{consistently improves coverage} across all datasets: 1.1$\times$ on ML-1M, 2.6$\times$ on Electronics, 3.9$\times$ on Arts, and 1.2$\times$ on MIND (where static coverage is already high). On \textbf{Electronics}, pool retrieval achieves NDCG=0.007, approaching the fresh model (0.009), while static cache degrades to 0.006. On \textbf{Arts}, pool retrieval matches fresh NDCG (0.004 vs 0.004). On ML-1M, static caching achieves higher NDCG (0.091 vs 0.088) because the dense dataset makes cluster centroids strong proxies. The tradeoff is clear: \textbf{static caching maximises NDCG on dense data; pool retrieval maximises coverage and approaches fresh quality on sparse data.}
 
 %----------------------------------------------------------------------
-\subsection{End-to-End Comparison}
+\subsection{End-to-End Comparison (S4)}
 \label{sec:exp_s4}
 %----------------------------------------------------------------------
 
@@ -515,7 +515,7 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 \textbf{Empirical speedup.} Speedup is measured from actual per-request latencies, not estimated. On ML-1M, speculative serving achieves 1.6$\times$ speedup over fresh MF inference on CPU. In production with GPU-based models (5--50ms per request vs $<$0.5ms cache lookup), the speedup scales with acceptance rate: 91\% acceptance implies $\sim$10$\times$ production speedup.
 
 %----------------------------------------------------------------------
-\subsection{Clustering Quality}
+\subsection{Clustering Quality (S6)}
 \label{sec:exp_s6}
 %----------------------------------------------------------------------
 
@@ -552,7 +552,7 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 Table~\ref{tab:s6} shows that while NDCG differences between semantic and random clustering are small, semantic clustering consistently yields \textbf{higher MCG} under pool retrieval: 57\% vs 50\% on ML-1M, 66\% vs 57\% on Electronics, 52\% vs 49\% on MIND. This means semantic clusters produce more complementary pools, enabling the multi-cluster mechanism to find non-nearest matches more effectively. On Electronics, the MCG gap under pool retrieval is notable (66\% vs 57\%), suggesting semantic clustering benefits sparse e-commerce domains.
 
 %----------------------------------------------------------------------
-\subsection{Pool Size Sensitivity}
+\subsection{Pool Size Sensitivity (S7)}
 \label{sec:exp_s7}
 %----------------------------------------------------------------------
 
@@ -581,7 +581,7 @@ Pool size has minimal impact on NDCG ($<$0.008 variation) and acceptance (stable
 \label{sec:ablation}
 %----------------------------------------------------------------------
 
-\paragraph{Temperature Sensitivity.}
+\paragraph{Temperature Sensitivity (A1).}
 The temperature $T$ in the score-ratio criterion (Eq.~\ref{eq:score_ratio}) controls the sharpness of the softmax distributions. Table~\ref{tab:a1} shows its effect on ML-1M.
 
 \begin{table}[t]
@@ -605,7 +605,7 @@ $T$ & NDCG & Accept & MCG \\
 
 At $T$=0.1, the distributions are sharp and only 15.5\% of requests are accepted, but MCG is highest (66.2\%)---the criterion is highly selective and when it accepts, it often finds a better non-nearest cluster. At $T$=2.0+, distributions flatten and nearly all requests are accepted. NDCG is remarkably stable across all temperatures ($\sim$0.103), confirming that the threshold $\tau$ rather than the temperature drives the quality--speed tradeoff. We use $T$=1.0 as default.
 
-\paragraph{Cold-Start vs Active Users.}
+\paragraph{Cold-Start vs Active Users (A2).}
 We partition ML-1M test users by interaction count into cold ($<$10 interactions, 122 users), medium (10--50, 46 users), and active ($\geq$50, 332 users).
 
 \begin{table}[t]
@@ -634,10 +634,10 @@ We partition ML-1M test users by interaction count into cold ($<$10 interactions
 
 Interesting patterns emerge: (1)~Cold-start users have the \emph{highest} NDCG across both modes (.162 static, .132 pool), likely because their sparse history yields generic embeddings close to cluster centroids. (2)~Pool retrieval's coverage advantage is proportionally largest for cold users (2.6$\times$: .068 vs .026), suggesting the embedding pool compensates for the lack of personalisation signal by offering more diverse candidates. (3)~Active users have the highest acceptance rates ($>$99\%) but the lowest NDCG (.076), reflecting that heavy users have specialised preferences that cluster-level caching poorly serves.
 
-\paragraph{Latency Breakdown.}
+\paragraph{Latency Breakdown (A3).}
 On ML-1M with $K$=3: static pipeline takes \textbf{0.22ms} per request (cluster lookup 0.03ms + verify/serve 0.19ms); pool pipeline takes \textbf{0.39ms} (0.04ms + 0.36ms). Both are faster than fresh MF inference ($\sim$0.3ms on CPU). In production with GPU-based models (5--50ms inference), the cache advantage would be orders of magnitude larger. The 1.8$\times$ latency difference between pool and static is consistent with the 20$\times$ increase in FLOPs predicted by complexity analysis (Table~\ref{tab:complexity}).
 
-\paragraph{Cluster Count Sensitivity.}
+\paragraph{Cluster Count Sensitivity (A4).}
 We vary the number of clusters $C \in \{10, 25, 50, 100\}$ on ML-1M.
 
 \begin{table}[t]
