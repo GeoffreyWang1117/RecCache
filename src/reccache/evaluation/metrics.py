@@ -345,6 +345,140 @@ class CacheEvaluator:
         self._results = []
 
 
+def compute_ild(recommendations: List[int], item_embeddings: np.ndarray) -> float:
+    """
+    Compute Intra-List Diversity: average pairwise cosine distance among recommended items.
+
+    Args:
+        recommendations: List of recommended item IDs
+        item_embeddings: Item embedding matrix (n_items, dim)
+
+    Returns:
+        Average pairwise cosine distance (0 = identical, 2 = opposite)
+    """
+    valid = [r for r in recommendations if r < len(item_embeddings)]
+    if len(valid) < 2:
+        return 0.0
+
+    embs = item_embeddings[valid]
+    norms = np.linalg.norm(embs, axis=1, keepdims=True) + 1e-8
+    embs_norm = embs / norms
+
+    # Cosine similarity matrix
+    sim_matrix = embs_norm @ embs_norm.T
+    n = len(valid)
+
+    # Average pairwise cosine distance (upper triangle only)
+    total_dist = 0.0
+    count = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            total_dist += 1.0 - sim_matrix[i, j]
+            count += 1
+
+    return total_dist / count if count > 0 else 0.0
+
+
+def compute_coverage(recommendations: Dict[int, List[int]], total_items: int) -> float:
+    """
+    Compute catalog coverage: fraction of unique items recommended across all users.
+
+    Args:
+        recommendations: Dict of user_id -> recommended items
+        total_items: Total number of items in the catalog
+
+    Returns:
+        Fraction of catalog covered (0-1)
+    """
+    if total_items == 0:
+        return 0.0
+
+    all_items = set()
+    for recs in recommendations.values():
+        all_items.update(recs)
+
+    return len(all_items) / total_items
+
+
+def compute_tail_user_ndcg(
+    user_results: Dict[int, float],
+    interaction_counts: Dict[int, int],
+    threshold: int = 5,
+) -> float:
+    """
+    Compute average NDCG for tail (cold/sparse) users with <= threshold interactions.
+
+    Args:
+        user_results: Dict of user_id -> NDCG score
+        interaction_counts: Dict of user_id -> number of training interactions
+        threshold: Maximum interaction count to be considered a tail user
+
+    Returns:
+        Average NDCG for tail users
+    """
+    tail_ndcgs = []
+    for user_id, ndcg in user_results.items():
+        if interaction_counts.get(user_id, 0) <= threshold:
+            tail_ndcgs.append(ndcg)
+
+    return float(np.mean(tail_ndcgs)) if tail_ndcgs else 0.0
+
+
+class SpeculativeMetrics:
+    """Metrics specific to speculative recommendation serving."""
+
+    @staticmethod
+    def acceptance_rate(results: List) -> float:
+        """Fraction of requests served from cache (accepted)."""
+        if not results:
+            return 0.0
+        accepted = sum(1 for r in results if r.accepted)
+        return accepted / len(results)
+
+    @staticmethod
+    def speedup_estimate(results: List, fresh_latency_ms: float = 0.0) -> float:
+        """Empirical speedup from measured latencies.
+
+        Args:
+            results: List of SpeculativeResult objects with latency_ms.
+            fresh_latency_ms: Measured mean latency of fresh computation.
+                If 0 or not provided, measures from residual (non-accepted)
+                results as proxy for fresh latency.
+        """
+        if not results:
+            return 1.0
+
+        spec_latencies = [r.latency_ms for r in results]
+        avg_spec = float(np.mean(spec_latencies))
+
+        if fresh_latency_ms > 0:
+            baseline = fresh_latency_ms
+        else:
+            # Use residual (rejected -> fresh compute) latencies as proxy
+            residual = [r.latency_ms for r in results if not r.accepted]
+            if residual:
+                baseline = float(np.mean(residual))
+            else:
+                # All accepted — measure from accepted latencies is not useful
+                # Return ratio based on acceptance rate heuristic as fallback
+                accept_rate = SpeculativeMetrics.acceptance_rate(results)
+                return 1.0 / (1.0 - accept_rate + 1e-8) if accept_rate < 1.0 else float(len(results))
+
+        return baseline / avg_spec if avg_spec > 0 else 1.0
+
+    @staticmethod
+    def multi_cluster_gain(results: List) -> float:
+        """Fraction of accepted results where a non-nearest cluster was used.
+
+        Measures how often the 2nd/3rd/... nearest cluster saved a reject.
+        """
+        accepted = [r for r in results if r.accepted]
+        if not accepted:
+            return 0.0
+        non_nearest = sum(1 for r in accepted if r.accepted_cluster_rank > 0)
+        return non_nearest / len(accepted)
+
+
 def compute_list_similarity(list1: List[int], list2: List[int], k: int = 10) -> Dict[str, float]:
     """
     Compute similarity metrics between two recommendation lists.

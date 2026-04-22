@@ -9,6 +9,16 @@ from reccache.clustering.online_kmeans import OnlineKMeans
 
 
 @dataclass
+class ClusterCandidate:
+    """A candidate cluster for speculative recommendation serving."""
+
+    cluster_id: int
+    distance: float
+    cluster_size: int
+    center: np.ndarray
+
+
+@dataclass
 class UserClusterInfo:
     """Information about a user's cluster assignment."""
 
@@ -104,6 +114,39 @@ class UserClusterManager:
                 cluster_size=cluster_info.count,
                 embedding=embedding,
             )
+
+    def get_nearest_clusters(self, user_id: int, top_k: int = 3) -> List[ClusterCandidate]:
+        """
+        Return top-K nearest clusters sorted by distance.
+
+        Uses existing OnlineKMeans._compute_distances() — no new computation needed.
+        """
+        with self._lock:
+            embedding = self._get_or_create_embedding(user_id)
+            emb_2d = embedding.reshape(1, -1)
+            distances = self.clusterer._compute_distances(emb_2d)[0]  # (n_clusters,)
+
+            # Get top-K nearest (smallest distance)
+            top_k_clamped = min(top_k, self.n_clusters)
+            nearest_indices = np.argsort(distances)[:top_k_clamped]
+
+            candidates = []
+            for idx in nearest_indices:
+                cluster_id = int(idx)
+                info = self.clusterer.get_cluster_info(cluster_id)
+                candidates.append(ClusterCandidate(
+                    cluster_id=cluster_id,
+                    distance=float(distances[idx]),
+                    cluster_size=info.count,
+                    center=info.center,
+                ))
+
+            return candidates
+
+    def get_user_embedding(self, user_id: int) -> np.ndarray:
+        """Expose user embedding for acceptance computation."""
+        with self._lock:
+            return self._get_or_create_embedding(user_id)
 
     def update_user_behavior(
         self,

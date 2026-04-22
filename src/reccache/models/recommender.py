@@ -47,7 +47,7 @@ class MatrixFactorizationRecommender:
         # Biases
         self.user_bias = nn.Embedding(n_users, 1).to(device)
         self.item_bias = nn.Embedding(n_items, 1).to(device)
-        self.global_bias = nn.Parameter(torch.zeros(1)).to(device)
+        self.global_bias = nn.Parameter(torch.zeros(1, device=torch.device(device)))
 
         # Initialize
         nn.init.normal_(self.user_embeddings.weight, std=0.01)
@@ -83,6 +83,8 @@ class MatrixFactorizationRecommender:
         lr: float = 0.001,
         weight_decay: float = 1e-5,
         verbose: bool = True,
+        implicit: bool = False,
+        neg_ratio: int = 4,
     ) -> Dict:
         """
         Train the recommender.
@@ -95,17 +97,17 @@ class MatrixFactorizationRecommender:
             batch_size: Batch size
             lr: Learning rate
             weight_decay: L2 regularization
+            implicit: If True, use BPR-style negative sampling
+            neg_ratio: Number of negative samples per positive (implicit only)
 
         Returns:
             Training statistics
         """
-        # Prepare data
-        users_t = torch.tensor(user_ids, dtype=torch.long)
-        items_t = torch.tensor(item_ids, dtype=torch.long)
-        ratings_t = torch.tensor(ratings, dtype=torch.float32)
-
-        dataset = TensorDataset(users_t, items_t, ratings_t)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        # Auto-detect implicit feedback
+        if not implicit:
+            unique_ratings = np.unique(ratings)
+            if len(unique_ratings) == 1 and unique_ratings[0] == 1.0:
+                implicit = True
 
         # Optimizer
         params = list(self.user_embeddings.parameters()) + \
@@ -115,31 +117,86 @@ class MatrixFactorizationRecommender:
                  [self.global_bias]
         optimizer = optim.Adam(params, lr=lr, weight_decay=weight_decay)
 
-        criterion = nn.MSELoss()
-
         losses = []
         iterator = tqdm(range(epochs), desc="Training") if verbose else range(epochs)
 
-        for epoch in iterator:
-            epoch_loss = 0.0
-            for batch_users, batch_items, batch_ratings in loader:
-                batch_users = batch_users.to(self.device)
-                batch_items = batch_items.to(self.device)
-                batch_ratings = batch_ratings.to(self.device)
+        if implicit:
+            # BPR-style training with negative sampling
+            positive_pairs = set(zip(user_ids.tolist(), item_ids.tolist()))
 
-                optimizer.zero_grad()
-                pred = self._predict_batch(batch_users, batch_items)
-                loss = criterion(pred, batch_ratings)
-                loss.backward()
-                optimizer.step()
+            for epoch in iterator:
+                epoch_loss = 0.0
+                n_batches = 0
 
-                epoch_loss += loss.item()
+                # Shuffle positive pairs each epoch
+                indices = np.random.permutation(len(user_ids))
 
-            avg_loss = epoch_loss / len(loader)
-            losses.append(avg_loss)
+                for start in range(0, len(indices), batch_size):
+                    batch_idx = indices[start:start + batch_size]
+                    batch_users = user_ids[batch_idx]
+                    batch_pos_items = item_ids[batch_idx]
 
-            if verbose:
-                iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
+                    # Sample negative items
+                    batch_neg_items = np.zeros_like(batch_pos_items)
+                    for j in range(len(batch_users)):
+                        while True:
+                            neg = np.random.randint(0, self.n_items)
+                            if (int(batch_users[j]), neg) not in positive_pairs:
+                                batch_neg_items[j] = neg
+                                break
+
+                    users_t = torch.tensor(batch_users, dtype=torch.long).to(self.device)
+                    pos_items_t = torch.tensor(batch_pos_items, dtype=torch.long).to(self.device)
+                    neg_items_t = torch.tensor(batch_neg_items, dtype=torch.long).to(self.device)
+
+                    optimizer.zero_grad()
+                    pos_scores = self._predict_batch(users_t, pos_items_t)
+                    neg_scores = self._predict_batch(users_t, neg_items_t)
+
+                    # BPR loss: maximize margin between positive and negative
+                    loss = -torch.log(torch.sigmoid(pos_scores - neg_scores) + 1e-8).mean()
+                    loss.backward()
+                    optimizer.step()
+
+                    epoch_loss += loss.item()
+                    n_batches += 1
+
+                avg_loss = epoch_loss / max(n_batches, 1)
+                losses.append(avg_loss)
+
+                if verbose:
+                    iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
+        else:
+            # Standard MSE training for explicit feedback
+            users_t = torch.tensor(user_ids, dtype=torch.long)
+            items_t = torch.tensor(item_ids, dtype=torch.long)
+            ratings_t = torch.tensor(ratings, dtype=torch.float32)
+
+            dataset = TensorDataset(users_t, items_t, ratings_t)
+            loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+            criterion = nn.MSELoss()
+
+            for epoch in iterator:
+                epoch_loss = 0.0
+                for batch_users, batch_items, batch_ratings in loader:
+                    batch_users = batch_users.to(self.device)
+                    batch_items = batch_items.to(self.device)
+                    batch_ratings = batch_ratings.to(self.device)
+
+                    optimizer.zero_grad()
+                    pred = self._predict_batch(batch_users, batch_items)
+                    loss = criterion(pred, batch_ratings)
+                    loss.backward()
+                    optimizer.step()
+
+                    epoch_loss += loss.item()
+
+                avg_loss = epoch_loss / len(loader)
+                losses.append(avg_loss)
+
+                if verbose:
+                    iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
 
         self._trained = True
 
@@ -329,7 +386,7 @@ class NeuralCollaborativeFiltering(nn.Module):
 
 
 class NCFRecommender:
-    """NCF recommender wrapper."""
+    """NCF recommender wrapper with BPR implicit training support."""
 
     def __init__(
         self,
@@ -341,6 +398,7 @@ class NCFRecommender:
     ):
         self.n_users = n_users
         self.n_items = n_items
+        self.embedding_dim = embedding_dim
         self.device = device
 
         self.model = NeuralCollaborativeFiltering(
@@ -360,46 +418,91 @@ class NCFRecommender:
         epochs: int = 20,
         batch_size: int = 256,
         lr: float = 0.001,
+        weight_decay: float = 1e-5,
         verbose: bool = True,
+        implicit: bool = False,
+        neg_ratio: int = 4,
     ) -> Dict:
-        """Train the NCF model."""
-        users_t = torch.tensor(user_ids, dtype=torch.long)
-        items_t = torch.tensor(item_ids, dtype=torch.long)
-        ratings_t = torch.tensor(ratings, dtype=torch.float32)
+        """Train the NCF model with MSE (explicit) or BPR (implicit)."""
+        if not implicit:
+            unique_ratings = np.unique(ratings)
+            if len(unique_ratings) == 1 and unique_ratings[0] == 1.0:
+                implicit = True
 
-        dataset = TensorDataset(users_t, items_t, ratings_t)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
-        optimizer = optim.Adam(self.model.parameters(), lr=lr)
-        criterion = nn.MSELoss()
-
+        optimizer = optim.Adam(self.model.parameters(), lr=lr, weight_decay=weight_decay)
         losses = []
         iterator = tqdm(range(epochs), desc="Training NCF") if verbose else range(epochs)
 
         self.model.train()
-        for epoch in iterator:
-            epoch_loss = 0.0
-            for batch_users, batch_items, batch_ratings in loader:
-                batch_users = batch_users.to(self.device)
-                batch_items = batch_items.to(self.device)
-                batch_ratings = batch_ratings.to(self.device)
 
-                optimizer.zero_grad()
-                pred = self.model(batch_users, batch_items)
-                loss = criterion(pred, batch_ratings)
-                loss.backward()
-                optimizer.step()
+        if implicit:
+            positive_pairs = set(zip(user_ids.tolist(), item_ids.tolist()))
+            for epoch in iterator:
+                epoch_loss = 0.0
+                n_batches = 0
+                indices = np.random.permutation(len(user_ids))
 
-                epoch_loss += loss.item()
+                for start in range(0, len(indices), batch_size):
+                    batch_idx = indices[start:start + batch_size]
+                    batch_users = user_ids[batch_idx]
+                    batch_pos_items = item_ids[batch_idx]
 
-            avg_loss = epoch_loss / len(loader)
-            losses.append(avg_loss)
+                    batch_neg_items = np.zeros_like(batch_pos_items)
+                    for j in range(len(batch_users)):
+                        while True:
+                            neg = np.random.randint(0, self.n_items)
+                            if (int(batch_users[j]), neg) not in positive_pairs:
+                                batch_neg_items[j] = neg
+                                break
 
-            if verbose:
-                iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
+                    users_t = torch.tensor(batch_users, dtype=torch.long).to(self.device)
+                    pos_t = torch.tensor(batch_pos_items, dtype=torch.long).to(self.device)
+                    neg_t = torch.tensor(batch_neg_items, dtype=torch.long).to(self.device)
+
+                    optimizer.zero_grad()
+                    pos_scores = self.model(users_t, pos_t)
+                    neg_scores = self.model(users_t, neg_t)
+                    loss = -torch.log(torch.sigmoid(pos_scores - neg_scores) + 1e-8).mean()
+                    loss.backward()
+                    optimizer.step()
+
+                    epoch_loss += loss.item()
+                    n_batches += 1
+
+                avg_loss = epoch_loss / max(n_batches, 1)
+                losses.append(avg_loss)
+                if verbose:
+                    iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
+        else:
+            users_t = torch.tensor(user_ids, dtype=torch.long)
+            items_t = torch.tensor(item_ids, dtype=torch.long)
+            ratings_t = torch.tensor(ratings, dtype=torch.float32)
+            dataset = TensorDataset(users_t, items_t, ratings_t)
+            loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+            criterion = nn.MSELoss()
+
+            for epoch in iterator:
+                epoch_loss = 0.0
+                for batch_users, batch_items, batch_ratings in loader:
+                    batch_users = batch_users.to(self.device)
+                    batch_items = batch_items.to(self.device)
+                    batch_ratings = batch_ratings.to(self.device)
+
+                    optimizer.zero_grad()
+                    pred = self.model(batch_users, batch_items)
+                    loss = criterion(pred, batch_ratings)
+                    loss.backward()
+                    optimizer.step()
+
+                    epoch_loss += loss.item()
+
+                avg_loss = epoch_loss / len(loader)
+                losses.append(avg_loss)
+                if verbose:
+                    iterator.set_postfix({"loss": f"{avg_loss:.4f}"})
 
         self._trained = True
-        return {"final_loss": losses[-1], "losses": losses}
+        return {"final_loss": losses[-1], "losses": losses, "n_samples": len(user_ids)}
 
     def recommend(
         self,
@@ -424,14 +527,32 @@ class NCFRecommender:
         top_indices = np.argsort(-scores)[:n]
         return top_indices.tolist()
 
+    def recommend_batch(
+        self,
+        user_ids: List[int],
+        n: int = 20,
+    ) -> List[List[int]]:
+        """Get recommendations for multiple users."""
+        return [self.recommend(uid, n) for uid in user_ids]
+
     def get_user_embedding(self, user_id: int) -> np.ndarray:
-        """Get combined user embedding (GMF + MLP)."""
+        """Get GMF user embedding (consistent dim with item embeddings for clustering)."""
         with torch.no_grad():
             user_t = torch.tensor([user_id], dtype=torch.long).to(self.device)
-            gmf_emb = self.model.gmf_user_emb(user_t)
-            mlp_emb = self.model.mlp_user_emb(user_t)
-            combined = torch.cat([gmf_emb, mlp_emb], dim=-1)
-        return combined.cpu().numpy().squeeze()
+            emb = self.model.gmf_user_emb(user_t)
+        return emb.cpu().numpy().squeeze()
+
+    def get_item_embedding(self, item_id: int) -> np.ndarray:
+        """Get GMF item embedding."""
+        with torch.no_grad():
+            item_t = torch.tensor([item_id], dtype=torch.long).to(self.device)
+            emb = self.model.gmf_item_emb(item_t)
+        return emb.cpu().numpy().squeeze()
+
+    def get_all_user_embeddings(self) -> np.ndarray:
+        """Get all GMF user embeddings."""
+        with torch.no_grad():
+            return self.model.gmf_user_emb.weight.cpu().numpy()
 
     def get_all_item_embeddings(self) -> np.ndarray:
         """Get GMF item embeddings (for clustering/similarity)."""
@@ -444,6 +565,7 @@ class NCFRecommender:
             "model_state": self.model.state_dict(),
             "n_users": self.n_users,
             "n_items": self.n_items,
+            "embedding_dim": self.embedding_dim,
             "trained": self._trained,
         }, path)
 

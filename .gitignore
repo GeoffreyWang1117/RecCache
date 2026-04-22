@@ -115,3 +115,19 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# macOS metadata
+__MACOSX/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.synctex.gz
+paper/main.log
+paper/recsys2026/main.log
+texput.log
+baselines/atspeed/
+baselines/nezha/

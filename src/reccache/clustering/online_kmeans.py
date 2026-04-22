@@ -79,8 +79,13 @@ class OnlineKMeans:
                 min(np.sum((x - c) ** 2) for c in centers)
                 for x in data
             ])
-            probs = distances / distances.sum()
-            idx = np.random.choice(n_samples, p=probs)
+            total = distances.sum()
+            if total == 0 or np.isnan(total):
+                # Degenerate case: all points identical, use random selection
+                idx = np.random.randint(n_samples)
+            else:
+                probs = distances / total
+                idx = np.random.choice(n_samples, p=probs)
             centers.append(data[idx])
 
         self.centers = np.array(centers, dtype=np.float32)

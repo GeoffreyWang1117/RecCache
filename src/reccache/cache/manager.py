@@ -138,24 +138,9 @@ class CacheManager:
             extra_features=request.extra_features,
         )
 
-        # Check if we should use cache based on quality prediction
-        if self._quality_predictor and cluster_info:
-            prediction = self._quality_predictor.predict(
-                distance_to_center=cluster_info.distance_to_center,
-                cluster_size=cluster_info.cluster_size,
-            )
-            predicted_quality = prediction.quality_score
-            if predicted_quality < (1 - self.cache_config.quality_threshold):
-                self._stats["skipped_low_quality"] += 1
-                return CacheResult(
-                    hit=False,
-                    value=None,
-                    cache_level="skipped",
-                    key=cache_key,
-                    quality_score=predicted_quality,
-                    cluster_info=cluster_info,
-                    latency_ms=(time.time() - start_time) * 1000,
-                )
+        # Note: Quality prediction is now used for eviction decisions in put()
+        # rather than skipping cache lookups, to maintain high hit rates
+        # while still leveraging quality-aware eviction
 
         # Try local cache first
         if self.local_cache:
@@ -208,7 +193,7 @@ class CacheManager:
         self,
         request: RecommendationRequest,
         recommendations: List[Any],
-        quality_score: float = 1.0,
+        quality_score: float = None,
     ):
         """
         Store recommendations in cache.
@@ -216,14 +201,19 @@ class CacheManager:
         Args:
             request: Original recommendation request
             recommendations: Recommendations to cache
-            quality_score: Quality score for eviction priority
+            quality_score: Quality score for eviction priority (auto-computed if None)
         """
         # Get cluster info for key
+        cluster_info = None
         if self.cluster_manager:
             cluster_info = self.cluster_manager.get_user_cluster(request.user_id)
             cluster_id = cluster_info.cluster_id
         else:
             cluster_id = request.user_id
+
+        # Compute quality score based on cluster info if not provided
+        if quality_score is None:
+            quality_score = self._compute_quality_score(cluster_info)
 
         # Build cache key
         cache_key = self.key_builder.build_key(
@@ -247,6 +237,36 @@ class CacheManager:
                 recommendations,
                 quality_score=quality_score,
             )
+
+    def _compute_quality_score(self, cluster_info: Optional[UserClusterInfo]) -> float:
+        """
+        Compute quality score based on cluster information.
+
+        Users closer to cluster center get higher quality scores because
+        their cached recommendations are more representative of the cluster.
+        """
+        if cluster_info is None:
+            return 1.0
+
+        # Use quality predictor if available
+        if self._quality_predictor:
+            prediction = self._quality_predictor.predict(
+                distance_to_center=cluster_info.distance_to_center,
+                cluster_size=cluster_info.cluster_size,
+            )
+            return prediction.quality_score
+
+        # Fallback: inverse relationship with distance to center
+        # Normalize distance assuming max distance ~ 2.0 for normalized embeddings
+        max_distance = 2.0
+        normalized_distance = min(cluster_info.distance_to_center / max_distance, 1.0)
+
+        # Quality decreases with distance, but also consider cluster size
+        # Smaller clusters = more homogeneous = higher quality
+        size_factor = 1.0 / (1.0 + np.log1p(cluster_info.cluster_size) / 5.0)
+
+        quality = (1.0 - normalized_distance * 0.5) * (0.7 + 0.3 * size_factor)
+        return max(0.1, min(1.0, quality))
 
     def invalidate_user(self, user_id: int):
         """
