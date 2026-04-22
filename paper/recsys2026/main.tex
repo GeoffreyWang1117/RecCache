@@ -311,13 +311,13 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 \paragraph{Protocol.} 3 runs (seeds 42--44), 500 test users. Mean $\pm$ std reported.
 
 %----------------------------------------------------------------------
-\subsection{Multi-Cluster Speculation (S1)}
+\subsection{Multi-Cluster Speculation}
 \label{sec:exp_s1}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Multi-cluster speculation ($K$ sweep, score-ratio $\tau$=0.35).}
+\caption{(S1) Multi-cluster speculation ($K$ sweep, score-ratio $\tau$=0.35).}
 \label{tab:s1}
 \small
 \begin{tabular}{ll ccccc}
@@ -346,13 +346,13 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases acceptance across all datasets: ML-1M goes from 80\% ($K$=1) to 96\% ($K$=7). NDCG remains stable. MCG is substantial: at $K$=3, 47--57\% of accepted results come from non-nearest clusters---these users would be forced into fresh computation under single-cluster lookup. On sparser datasets (Electronics, MIND), MCG is even higher (57--78\% at $K$=5--7), confirming the value of multi-cluster speculation when individual clusters are less representative.
 
 %----------------------------------------------------------------------
-\subsection{Acceptance Criterion Comparison (S2)}
+\subsection{Acceptance Criterion Comparison}
 \label{sec:exp_s2}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Acceptance criterion comparison ($K$=3). Only score-ratio enables MCG.}
+\caption{(S2) Acceptance criterion comparison ($K$=3). Only score-ratio enables MCG.}
 \label{tab:s2}
 \small
 \begin{tabular}{ll cccc}
@@ -361,12 +361,12 @@ Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases a
 \midrule
 \multirow{3}{*}{ML-1M}
 & Cosine & .093 & 99.4\% & 0\% \\
-& ScoreRatio & .090 & 97.0\% & \textbf{55.1\%} \\
+& \cellcolor{gray!15} ScoreRatio & \cellcolor{gray!15} .090 & \cellcolor{gray!15} 97.0\% & \cellcolor{gray!15} \textbf{55.1\%} \\
 & Heuristic & .100 & 77.4\% & 0\% \\
 \midrule
 \multirow{3}{*}{A-Elec.}
 & Cosine & .006 & 99.8\% & 0\% \\
-& ScoreRatio & .004 & 71.0\% & \textbf{54.4\%} \\
+& \cellcolor{gray!15} ScoreRatio & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 71.0\% & \cellcolor{gray!15} \textbf{54.4\%} \\
 & Heuristic & .007 & 9.0\% & 0\% \\
 \bottomrule
 \end{tabular}
@@ -375,13 +375,13 @@ Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases a
 The cosine criterion trivially accepts all requests (zero MCG). The heuristic is overly conservative on sparse data (9.0\% on Electronics). Only the score-ratio criterion achieves non-zero MCG (54--55\%) because it evaluates acceptance \emph{per item}, not per distance.
 
 %----------------------------------------------------------------------
-\subsection{Quality--Speed Pareto Front (S3)}
+\subsection{Quality--Speed Pareto Front}
 \label{sec:exp_s3}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Pareto front on ML-1M (score-ratio, $K$=3). Fresh NDCG: 0.165.}
+\caption{(S3) Pareto front on ML-1M (score-ratio, $K$=3). Fresh NDCG: 0.165.}
 \label{tab:s3}
 \small
 \begin{tabular}{lccccc}
@@ -408,13 +408,13 @@ $\tau$ & NDCG & Accept & Speedup & MCG & Cov. \\
 Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\tau$=0.05, the system accepts all requests with 2.3$\times$ speedup and 55\% quality retention. At $\tau$=0.60, it is selective: 48\% acceptance, 0.9$\times$ speedup, 72\% quality with 3.0$\times$ higher coverage. MCG remains stable ($\sim$43--56\%), confirming it is a consistent empirical pattern of the score-ratio criterion.
 
 %----------------------------------------------------------------------
-\subsection{Pool Retrieval vs Static Cache (S5)}
+\subsection{Pool Retrieval vs Static Cache}
 \label{sec:exp_s5}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Pool retrieval vs static cache ($K$=3, $\tau$=0.35). Pool consistently improves coverage 1.1--3.9$\times$. On Electronics, pool approaches fresh-model NDCG.}
+\caption{(S5) Pool retrieval vs static cache ($K$=3, $\tau$=0.35). Pool consistently improves coverage 1.1--3.9$\times$. On Electronics, pool approaches fresh-model NDCG.}
 \label{tab:s5}
 \small
 \begin{tabular}{ll cccc}
@@ -454,13 +454,13 @@ Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\
 Table~\ref{tab:s5} and Figure~\ref{fig:coverage} reveal the core tradeoff. Pool retrieval \textbf{consistently improves coverage} across all datasets: 1.1$\times$ on ML-1M, 2.6$\times$ on Electronics, 3.9$\times$ on Arts, and 1.2$\times$ on MIND (where static coverage is already high). On \textbf{Electronics}, pool retrieval achieves NDCG=0.007, approaching the fresh model (0.009), while static cache degrades to 0.006. On \textbf{Arts}, pool retrieval matches fresh NDCG (0.004 vs 0.004). On ML-1M, static caching achieves higher NDCG (0.091 vs 0.088) because the dense dataset makes cluster centroids strong proxies. The tradeoff is clear: \textbf{static caching maximises NDCG on dense data; pool retrieval maximises coverage and approaches fresh quality on sparse data.}
 
 %----------------------------------------------------------------------
-\subsection{End-to-End Comparison (S4)}
+\subsection{End-to-End Comparison}
 \label{sec:exp_s4}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{End-to-end comparison. Best cached NDCG in \textbf{bold}; best cached coverage \underline{underlined}. $\pm$std from 3 runs.}
+\caption{(S4) End-to-end comparison. Best cached NDCG in \textbf{bold}; best cached coverage \underline{underlined}. $\pm$std from 3 runs.}
 \label{tab:s4}
 \small
 \begin{tabular}{ll ccccc}
@@ -515,13 +515,13 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 \textbf{Empirical speedup.} Speedup is measured from actual per-request latencies, not estimated. On ML-1M, speculative serving achieves 1.6$\times$ speedup over fresh MF inference on CPU. In production with GPU-based models (5--50ms per request vs $<$0.5ms cache lookup), the speedup scales with acceptance rate: 91\% acceptance implies $\sim$10$\times$ production speedup.
 
 %----------------------------------------------------------------------
-\subsection{Clustering Quality (S6)}
+\subsection{Clustering Quality}
 \label{sec:exp_s6}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Semantic vs random clustering. Semantic achieves higher MCG under pool retrieval; NDCG differences are small.}
+\caption{(S6) Semantic vs random clustering. Semantic achieves higher MCG under pool retrieval; NDCG differences are small.}
 \label{tab:s6}
 \small
 \begin{tabular}{ll cccc}
@@ -531,19 +531,19 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 \multirow{4}{*}{ML-1M}
 & Sem.+Static & .091 & 91.4\% & 53.2\% \\
 & Rand.+Static & .097 & 90.8\% & 50.4\% \\
-& Sem.+Pool & .088 & 94.2\% & \textbf{56.7\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .088 & \cellcolor{gray!15} 94.2\% & \cellcolor{gray!15} \textbf{56.7\%} \\
 & Rand.+Pool & .090 & 92.8\% & 50.2\% \\
 \midrule
 \multirow{4}{*}{A-Elec.}
 & Sem.+Static & .006 & 52.0\% & 56.5\% \\
 & Rand.+Static & .008 & 54.0\% & 59.3\% \\
-& Sem.+Pool & .007 & 61.2\% & \textbf{65.7\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .007 & \cellcolor{gray!15} 61.2\% & \cellcolor{gray!15} \textbf{65.7\%} \\
 & Rand.+Pool & .006 & 62.0\% & 56.5\% \\
 \midrule
 \multirow{4}{*}{MIND}
 & Sem.+Static & .019 & 35.0\% & 46.9\% \\
 & Rand.+Static & .018 & 32.2\% & 51.6\% \\
-& Sem.+Pool & .017 & 22.8\% & \textbf{51.8\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .017 & \cellcolor{gray!15} 22.8\% & \cellcolor{gray!15} \textbf{51.8\%} \\
 & Rand.+Pool & .018 & 21.4\% & 48.6\% \\
 \bottomrule
 \end{tabular}
@@ -552,13 +552,13 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 Table~\ref{tab:s6} shows that while NDCG differences between semantic and random clustering are small, semantic clustering consistently yields \textbf{higher MCG} under pool retrieval: 57\% vs 50\% on ML-1M, 66\% vs 57\% on Electronics, 52\% vs 49\% on MIND. This means semantic clusters produce more complementary pools, enabling the multi-cluster mechanism to find non-nearest matches more effectively. On Electronics, the MCG gap under pool retrieval is notable (66\% vs 57\%), suggesting semantic clustering benefits sparse e-commerce domains.
 
 %----------------------------------------------------------------------
-\subsection{Pool Size Sensitivity (S7)}
+\subsection{Pool Size Sensitivity}
 \label{sec:exp_s7}
 %----------------------------------------------------------------------
 
 \begin{table}[t]
 \centering
-\caption{Pool size sweep on ML-1M. Coverage grows with pool size; NDCG and acceptance are stable.}
+\caption{(S7) Pool size sweep on ML-1M. Coverage grows with pool size; NDCG and acceptance are stable.}
 \label{tab:s7}
 \small
 \begin{tabular}{lcccc}
@@ -567,6 +567,7 @@ $|\mathcal{P}|$ & NDCG & Accept & MCG & Cov. \\
 \midrule
 50 & \textbf{.096} & 95.4\% & 49.7\% & .050 \\
 100 & .091 & 95.0\% & 54.5\% & .050 \\
+\rowcolor{gray!15}
 200 & .088 & 94.2\% & 56.7\% & .053 \\
 500 & .089 & 94.0\% & 57.7\% & \textbf{.053} \\
 \bottomrule
@@ -580,12 +581,12 @@ Pool size has minimal impact on NDCG ($<$0.008 variation) and acceptance (stable
 \label{sec:ablation}
 %----------------------------------------------------------------------
 
-\paragraph{Temperature Sensitivity (A1).}
+\paragraph{Temperature Sensitivity.}
 The temperature $T$ in the score-ratio criterion (Eq.~\ref{eq:score_ratio}) controls the sharpness of the softmax distributions. Table~\ref{tab:a1} shows its effect on ML-1M.
 
 \begin{table}[t]
 \centering
-\caption{Temperature sensitivity on ML-1M ($K$=3, $\tau$=0.35). Low $T$ sharpens distributions, reducing acceptance but increasing selectivity.}
+\caption{(A1) Temperature sensitivity on ML-1M ($K$=3, $\tau$=0.35). Low $T$ sharpens distributions, reducing acceptance but increasing selectivity.}
 \label{tab:a1}
 \small
 \begin{tabular}{lccc}
@@ -594,6 +595,7 @@ $T$ & NDCG & Accept & MCG \\
 \midrule
 0.1 & .103 & 15.5\% & 66.2\% \\
 0.5 & .101 & 49.9\% & 55.6\% \\
+\rowcolor{gray!15}
 1.0 & .103 & 91.2\% & 55.4\% \\
 2.0 & .103 & 100\% & 53.0\% \\
 5.0 & .103 & 100\% & 52.5\% \\
@@ -603,12 +605,12 @@ $T$ & NDCG & Accept & MCG \\
 
 At $T$=0.1, the distributions are sharp and only 15.5\% of requests are accepted, but MCG is highest (66.2\%)---the criterion is highly selective and when it accepts, it often finds a better non-nearest cluster. At $T$=2.0+, distributions flatten and nearly all requests are accepted. NDCG is remarkably stable across all temperatures ($\sim$0.103), confirming that the threshold $\tau$ rather than the temperature drives the quality--speed tradeoff. We use $T$=1.0 as default.
 
-\paragraph{Cold-Start vs Active Users (A2).}
+\paragraph{Cold-Start vs Active Users.}
 We partition ML-1M test users by interaction count into cold ($<$10 interactions, 122 users), medium (10--50, 46 users), and active ($\geq$50, 332 users).
 
 \begin{table}[t]
 \centering
-\caption{User activity breakdown on ML-1M. Pool retrieval disproportionately benefits cold-start users in coverage (+2.6$\times$).}
+\caption{(A2) User activity breakdown on ML-1M. Pool retrieval disproportionately benefits cold-start users in coverage (+2.6$\times$).}
 \label{tab:a2}
 \small
 \begin{tabular}{ll ccc}
@@ -617,30 +619,30 @@ We partition ML-1M test users by interaction count into cold ($<$10 interactions
 \midrule
 \multirow{2}{*}{Cold ($<$10)}
 & Static & \textbf{.162} & 69.7\% & .026 \\
-& Pool & .132 & 66.4\% & \textbf{.068} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .132 & \cellcolor{gray!15} 66.4\% & \cellcolor{gray!15} \textbf{.068} \\
 \midrule
 \multirow{2}{*}{Medium}
 & Static & \textbf{.123} & 89.1\% & .028 \\
-& Pool & .068 & 87.0\% & \textbf{.047} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .068 & \cellcolor{gray!15} 87.0\% & \cellcolor{gray!15} \textbf{.047} \\
 \midrule
 \multirow{2}{*}{Active ($\geq$50)}
 & Static & \textbf{.076} & 99.4\% & .038 \\
-& Pool & .050 & 98.8\% & \textbf{.079} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .050 & \cellcolor{gray!15} 98.8\% & \cellcolor{gray!15} \textbf{.079} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Interesting patterns emerge: (1)~Cold-start users have the \emph{highest} NDCG across both modes (.162 static, .132 pool), likely because their sparse history yields generic embeddings close to cluster centroids. (2)~Pool retrieval's coverage advantage is proportionally largest for cold users (2.6$\times$: .068 vs .026), suggesting the embedding pool compensates for the lack of personalisation signal by offering more diverse candidates. (3)~Active users have the highest acceptance rates ($>$99\%) but the lowest NDCG (.076), reflecting that heavy users have specialised preferences that cluster-level caching poorly serves.
 
-\paragraph{Latency Breakdown (A3).}
+\paragraph{Latency Breakdown.}
 On ML-1M with $K$=3: static pipeline takes \textbf{0.22ms} per request (cluster lookup 0.03ms + verify/serve 0.19ms); pool pipeline takes \textbf{0.39ms} (0.04ms + 0.36ms). Both are faster than fresh MF inference ($\sim$0.3ms on CPU). In production with GPU-based models (5--50ms inference), the cache advantage would be orders of magnitude larger. The 1.8$\times$ latency difference between pool and static is consistent with the 20$\times$ increase in FLOPs predicted by complexity analysis (Table~\ref{tab:complexity}).
 
-\paragraph{Cluster Count Sensitivity (A4).}
+\paragraph{Cluster Count Sensitivity.}
 We vary the number of clusters $C \in \{10, 25, 50, 100\}$ on ML-1M.
 
 \begin{table}[t]
 \centering
-\caption{Cluster count sensitivity on ML-1M. More clusters increase MCG and coverage but slightly reduce NDCG.}
+\caption{(A4) Cluster count sensitivity on ML-1M. More clusters increase MCG and coverage but slightly reduce NDCG.}
 \label{tab:a4}
 \small
 \begin{tabular}{lcccc}
@@ -649,6 +651,7 @@ $C$ & NDCG & Accept & MCG & Cov. \\
 \midrule
 10 & \textbf{.097} & 88.7\% & 50.4\% & .030 \\
 25 & .102 & 91.5\% & 53.9\% & .027 \\
+\rowcolor{gray!15}
 50 & .098 & 91.1\% & 56.0\% & .041 \\
 100 & .092 & 92.5\% & \textbf{57.1\%} & \textbf{.061} \\
 \bottomrule
@@ -694,8 +697,8 @@ We implement a simplified CARL-like DQN policy that learns to serve cached vs co
 \multirow{4}{*}{ML-1M}
 & Fresh & .147 & --- & 1$\times$ & .181 \\
 & CARL-like (RL) & .101 & 93\% & 11$\times$ & .047 \\
-& Spec.\ (ours) & \textbf{.102} & 85\% & 1.5$\times$ & .027 \\
-& Sp.+Pool (ours) & .093 & 84\% & 0.7$\times$ & \textbf{.062} \\
+& \cellcolor{gray!15} Spec.\ (ours) & \cellcolor{gray!15} \textbf{.102} & \cellcolor{gray!15} 85\% & \cellcolor{gray!15} 1.5$\times$ & \cellcolor{gray!15} .027 \\
+& \cellcolor{gray!15} Sp.+Pool (ours) & \cellcolor{gray!15} .093 & \cellcolor{gray!15} 84\% & \cellcolor{gray!15} 0.7$\times$ & \cellcolor{gray!15} \textbf{.062} \\
 \bottomrule
 \end{tabular}
 \end{table}
