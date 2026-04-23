@@ -1,0 +1,174 @@
+{
+  "ml-1m": {
+    "dataset": "ml-1m",
+    "n_users": 500,
+    "comparisons": {
+      "Naive vs Fresh": {
+        "mean_diff": -0.058443956557602476,
+        "t_statistic": -7.993872374218454,
+        "p_ttest": 9.156134368353257e-15,
+        "p_ttest_bonferroni": 2.746840310505977e-14,
+        "p_wilcoxon": 6.629881214776943e-14,
+        "p_wilcoxon_bonferroni": 1.9889643644330828e-13,
+        "significant": true,
+        "significance_level": "***"
+      },
+      "Speculative vs Fresh": {
+        "mean_diff": -0.03461578344225952,
+        "t_statistic": -5.571080086006598,
+        "p_ttest": 4.145950235020587e-08,
+        "p_ttest_bonferroni": 1.243785070506176e-07,
+        "p_wilcoxon": 1.511433410535146e-07,
+        "p_wilcoxon_bonferroni": 4.534300231605438e-07,
+        "significant": true,
+        "significance_level": "***"
+      },
+      "Spec+Pool vs Fresh": {
+        "mean_diff": -0.06269226796962649,
+        "t_statistic": -9.200214094599621,
+        "p_ttest": 9.753144349238439e-19,
+        "p_ttest_bonferroni": 2.9259433047715317e-18,
+        "p_wilcoxon": 2.557837561924707e-18,
+        "p_wilcoxon_bonferroni": 7.67351268577412e-18,
+        "significant": true,
+        "significance_level": "***"
+      },
+      "Spec vs Naive": {
+        "mean_diff": 0.023828173115342965,
+        "t_statistic": 3.7521254696623427,
+        "p_ttest": 0.00019593908581518055,
+        "significant": true,
+        "significance_level": "***"
+      }
+    }
+  },
+  "amazon-electronics": {
+    "dataset": "amazon-electronics",
+    "n_users": 500,
+    "comparisons": {
+      "Naive vs Fresh": {
+        "mean_diff": -0.011886403194976016,
+        "t_statistic": -3.5537263461760786,
+        "p_ttest": 0.0004159064039097609,
+        "p_ttest_bonferroni": 0.0012477192117292828,
+        "p_wilcoxon": 0.0003301135773682993,
+        "p_wilcoxon_bonferroni": 0.000990340732104898,
+        "significant": true,
+        "significance_level": "**"
+      },
+      "Speculative vs Fresh": {
+        "mean_diff": -0.003055273440103643,
+        "t_statistic": -2.079577630618766,
+        "p_ttest": 0.03807426667764018,
+        "p_ttest_bonferroni": 0.11422280003292054,
+        "p_wilcoxon": 0.017960477526078766,
+        "p_wilcoxon_bonferroni": 0.0538814325782363,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Spec+Pool vs Fresh": {
+        "mean_diff": -0.009460525924151818,
+        "t_statistic": -3.4729672880157763,
+        "p_ttest": 0.000559496536351452,
+        "p_ttest_bonferroni": 0.001678489609054356,
+        "p_wilcoxon": 0.0001259086552840657,
+        "p_wilcoxon_bonferroni": 0.00037772596585219714,
+        "significant": true,
+        "significance_level": "**"
+      },
+      "Spec vs Naive": {
+        "mean_diff": 0.008831129754872373,
+        "t_statistic": 2.851994943815932,
+        "p_ttest": 0.004524756844271246,
+        "significant": true,
+        "significance_level": "**"
+      }
+    }
+  },
+  "amazon-arts": {
+    "dataset": "amazon-arts",
+    "n_users": 500,
+    "comparisons": {
+      "Naive vs Fresh": {
+        "mean_diff": -0.0032111654615565666,
+        "t_statistic": -1.4681015517766034,
+        "p_ttest": 0.14270668276960158,
+        "p_ttest_bonferroni": 0.42812004830880473,
+        "p_wilcoxon": 0.19099847656764468,
+        "p_wilcoxon_bonferroni": 0.572995429702934,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Speculative vs Fresh": {
+        "mean_diff": -0.0009106719682831035,
+        "t_statistic": -1.1651288733003349,
+        "p_ttest": 0.244523495268632,
+        "p_ttest_bonferroni": 0.733570485805896,
+        "p_wilcoxon": 0.14412703481601533,
+        "p_wilcoxon_bonferroni": 0.432381104448046,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Spec+Pool vs Fresh": {
+        "mean_diff": -0.003941635485528152,
+        "t_statistic": -2.08977467303421,
+        "p_ttest": 0.03714377829716339,
+        "p_ttest_bonferroni": 0.11143133489149018,
+        "p_wilcoxon": 0.038050000556558425,
+        "p_wilcoxon_bonferroni": 0.11415000166967527,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Spec vs Naive": {
+        "mean_diff": 0.002300493493273463,
+        "t_statistic": 1.0898700753495572,
+        "p_ttest": 0.2762964039528093,
+        "significant": false,
+        "significance_level": "ns"
+      }
+    }
+  },
+  "mind-small": {
+    "dataset": "mind-small",
+    "n_users": 500,
+    "comparisons": {
+      "Naive vs Fresh": {
+        "mean_diff": -0.006367876560571426,
+        "t_statistic": -1.6972278719325118,
+        "p_ttest": 0.09027713549654999,
+        "p_ttest_bonferroni": 0.27083140648965,
+        "p_wilcoxon": 0.0974393265099532,
+        "p_wilcoxon_bonferroni": 0.2923179795298596,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Speculative vs Fresh": {
+        "mean_diff": -0.007609379454547042,
+        "t_statistic": -2.258680074183182,
+        "p_ttest": 0.024334198506859445,
+        "p_ttest_bonferroni": 0.07300259552057833,
+        "p_wilcoxon": 0.035748470275218845,
+        "p_wilcoxon_bonferroni": 0.10724541082565653,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Spec+Pool vs Fresh": {
+        "mean_diff": 0.0008617444692312664,
+        "t_statistic": 0.815797164568895,
+        "p_ttest": 0.4150053883154832,
+        "p_ttest_bonferroni": 1.0,
+        "p_wilcoxon": 0.34523107177184,
+        "p_wilcoxon_bonferroni": 1.0,
+        "significant": false,
+        "significance_level": "ns"
+      },
+      "Spec vs Naive": {
+        "mean_diff": -0.0012415028939756158,
+        "t_statistic": -0.3625578188791356,
+        "p_ttest": 0.7170887313126532,
+        "significant": false,
+        "significance_level": "ns"
+      }
+    }
+  }
+}

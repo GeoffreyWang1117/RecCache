@@ -1,0 +1,109 @@
+{
+  "cluster_granularity": [
+    {
+      "n_clusters": 10,
+      "hit_rate": 0.9572,
+      "avg_ndcg": 0.08881245431423024,
+      "ndcg_degradation": -0.007159855829548256,
+      "avg_latency_ms": 0.04559307098388672
+    },
+    {
+      "n_clusters": 25,
+      "hit_rate": 0.9116,
+      "avg_ndcg": 0.08398106387609608,
+      "ndcg_degradation": -0.02034443278392728,
+      "avg_latency_ms": 0.05633444786071777
+    },
+    {
+      "n_clusters": 50,
+      "hit_rate": 0.8548,
+      "avg_ndcg": 0.07526765364504501,
+      "ndcg_degradation": -0.00017974765751138655,
+      "avg_latency_ms": 0.06725172996520996
+    },
+    {
+      "n_clusters": 100,
+      "hit_rate": 0.7986,
+      "avg_ndcg": 0.08008141564186273,
+      "ndcg_degradation": 0.0020737070444603045,
+      "avg_latency_ms": 0.07622642517089843
+    },
+    {
+      "n_clusters": 200,
+      "hit_rate": 0.7456,
+      "avg_ndcg": 0.07880641092901633,
+      "ndcg_degradation": -0.012435253441648086,
+      "avg_latency_ms": 0.09981379508972169
+    }
+  ],
+  "cache_size": [
+    {
+      "cache_size": 100,
+      "hit_rate": 0.3792,
+      "avg_latency_ms": 0.1961977481842041
+    },
+    {
+      "cache_size": 500,
+      "hit_rate": 0.8218,
+      "avg_latency_ms": 0.09234743118286133
+    },
+    {
+      "cache_size": 1000,
+      "hit_rate": 0.8512,
+      "avg_latency_ms": 0.07113966941833497
+    },
+    {
+      "cache_size": 5000,
+      "hit_rate": 0.857,
+      "avg_latency_ms": 0.06762490272521973
+    },
+    {
+      "cache_size": 10000,
+      "hit_rate": 0.8502,
+      "avg_latency_ms": 0.06726541519165039
+    }
+  ],
+  "traffic_pattern": [
+    {
+      "pattern": "uniform",
+      "hit_rate": 0.7938,
+      "avg_latency_ms": 0.07997317314147949,
+      "p95_latency_ms": 0.2384185791015625
+    },
+    {
+      "pattern": "zipf",
+      "hit_rate": 0.855,
+      "avg_latency_ms": 0.0664783000946045,
+      "p95_latency_ms": 0.23436546325683594
+    },
+    {
+      "pattern": "clustered",
+      "hit_rate": 0.8052,
+      "avg_latency_ms": 0.07660727500915528,
+      "p95_latency_ms": 0.23651123046875
+    }
+  ],
+  "latency_breakdown": {
+    "cache_hit": {
+      "count": 1000,
+      "mean": 0.03515934944152832,
+      "p50": 0.034332275390625,
+      "p95": 0.04267692565917969,
+      "p99": 0.04935264587402344
+    },
+    "cache_miss": {
+      "count": 0,
+      "mean": 0,
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "fresh": {
+      "count": 1000,
+      "mean": 0.1440722942352295,
+      "p50": 0.13971328735351562,
+      "p95": 0.16812086105346677,
+      "p99": 0.20599842071533203
+    }
+  }
+}

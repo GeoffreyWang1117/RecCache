@@ -1,0 +1,708 @@
+{
+  "S4": {
+    "ml-1m": {
+      "Fresh": {
+        "ndcg": {
+          "mean": 0.17339453769401933,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.20642201834862386,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7715422511100769,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "tail_ndcg": {
+          "mean": 0.1756286765597305,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "fresh_latency_ms": {
+          "mean": 0.3088827815372497,
+          "std": 0.025747886759506722
+        }
+      },
+      "Naive Cache": {
+        "ndcg": {
+          "mean": 0.10446675890346052,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.04317323259579061,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7750490307807922,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 10.516008964243698,
+          "std": 0.8040519717905668
+        },
+        "tail_ndcg": {
+          "mean": 0.1699520879986404,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "QA-bypass": {
+        "ndcg": {
+          "mean": 0.10293880340230348,
+          "std": 1.3877787807814457e-17
+        },
+        "accept_rate": {
+          "mean": 0.7760000000000001,
+          "std": 1.1102230246251565e-16
+        },
+        "coverage": {
+          "mean": 0.04317323259579061,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7715845704078674,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 3.789249377475436,
+          "std": 1.5327441534363004
+        },
+        "tail_ndcg": {
+          "mean": 0.17032401763684038,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative": {
+        "ndcg": {
+          "mean": 0.0994731475961818,
+          "std": 1.3877787807814457e-17
+        },
+        "accept_rate": {
+          "mean": 0.928,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.04101457096600108,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7685378193855286,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.8757120259148439,
+          "std": 0.231392057044623
+        },
+        "tail_ndcg": {
+          "mean": 0.17121285588556304,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.5258620689655172,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative+Pool": {
+        "ndcg": {
+          "mean": 0.09527233766592487,
+          "std": 1.3877787807814457e-17
+        },
+        "accept_rate": {
+          "mean": 0.926,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.058014031300593634,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7590418457984924,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 0.7148538056796058,
+          "std": 0.04767457088609908
+        },
+        "tail_ndcg": {
+          "mean": 0.17649964161922416,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.5745140388768899,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.926,
+          "std": 0.0
+        }
+      }
+    },
+    "amazon-electronics": {
+      "Fresh": {
+        "ndcg": {
+          "mean": 0.012022991094100217,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.057310940316918114,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7515454292297363,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "tail_ndcg": {
+          "mean": 0.012047085264629475,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "fresh_latency_ms": {
+          "mean": 0.5669594876235351,
+          "std": 0.04095222245527625
+        }
+      },
+      "Naive Cache": {
+        "ndcg": {
+          "mean": 0.006805384151166574,
+          "std": 8.673617379884035e-19
+        },
+        "accept_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.012999335800360565,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.7247122526168823,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 51.525906496113464,
+          "std": 11.190500982547226
+        },
+        "tail_ndcg": {
+          "mean": 0.006819022195557692,
+          "std": 8.673617379884035e-19
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "QA-bypass": {
+        "ndcg": {
+          "mean": 0.009946505558210396,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.09600000000000002,
+          "std": 1.3877787807814457e-17
+        },
+        "coverage": {
+          "mean": 0.042698548249359515,
+          "std": 6.938893903907228e-18
+        },
+        "ild": {
+          "mean": 0.7827449440956116,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 2.5668746103180737,
+          "std": 0.06805994335855817
+        },
+        "tail_ndcg": {
+          "mean": 0.009966438435080556,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative": {
+        "ndcg": {
+          "mean": 0.007638029843440991,
+          "std": 8.673617379884035e-19
+        },
+        "accept_rate": {
+          "mean": 0.564,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.025619128949615714,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.659564197063446,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 2.896754427636559,
+          "std": 1.0365312280460348
+        },
+        "tail_ndcg": {
+          "mean": 0.007653336516473939,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.6702127659574467,
+          "std": 1.1102230246251565e-16
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative+Pool": {
+        "ndcg": {
+          "mean": 0.0073002699109372985,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.592,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.07040516178005503,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6617292165756226,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 2.395834824014175,
+          "std": 0.9528040190893994
+        },
+        "tail_ndcg": {
+          "mean": 0.007314899710358014,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.6486486486486487,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.592,
+          "std": 0.0
+        }
+      }
+    },
+    "amazon-arts": {
+      "Fresh": {
+        "ndcg": {
+          "mean": 0.00429398137423195,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.05106036718710268,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.43341705203056335,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "tail_ndcg": {
+          "mean": 0.005432296702530694,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "fresh_latency_ms": {
+          "mean": 0.9341511497623287,
+          "std": 0.04559303475467549
+        }
+      },
+      "Naive Cache": {
+        "ndcg": {
+          "mean": 0.0025375030042672363,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.008493108884707319,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.43767833709716797,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 47.30561506487959,
+          "std": 4.024075320987725
+        },
+        "tail_ndcg": {
+          "mean": 0.003021744879269509,
+          "std": 4.336808689942018e-19
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "QA-bypass": {
+        "ndcg": {
+          "mean": 0.004133288311266141,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.672,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.021614199257488684,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.4379900395870209,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 3.124152649225913,
+          "std": 0.21183831560424685
+        },
+        "tail_ndcg": {
+          "mean": 0.005432296702530694,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative": {
+        "ndcg": {
+          "mean": 0.0012756434971243214,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.964,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.008493108884707319,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.42509540915489197,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 7.518208320475544,
+          "std": 0.2860156936027453
+        },
+        "tail_ndcg": {
+          "mean": 0.0011156126932530207,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.45850622406639,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative+Pool": {
+        "ndcg": {
+          "mean": 0.002378810835649508,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.9659999999999999,
+          "std": 1.1102230246251565e-16
+        },
+        "coverage": {
+          "mean": 0.03600671311600468,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.3608732223510742,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 2.9401873248105463,
+          "std": 0.3005736904785505
+        },
+        "tail_ndcg": {
+          "mean": 0.0033932060252881116,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.587991718426501,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.9659999999999999,
+          "std": 1.1102230246251565e-16
+        }
+      }
+    },
+    "mind-small": {
+      "Fresh": {
+        "ndcg": {
+          "mean": 0.017889294138835398,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.12888005959771542,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6577136516571045,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "tail_ndcg": {
+          "mean": 0.022730046461771614,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "fresh_latency_ms": {
+          "mean": 0.2486748911712008,
+          "std": 0.010530651255965388
+        }
+      },
+      "Naive Cache": {
+        "ndcg": {
+          "mean": 0.016377171305869714,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.05165135336478768,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6782618761062622,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 46.232456926550434,
+          "std": 6.0177037071550785
+        },
+        "tail_ndcg": {
+          "mean": 0.022810585172385364,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "QA-bypass": {
+        "ndcg": {
+          "mean": 0.01761000673181551,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.312,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.12515520238390862,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6693203449249268,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 12.563843708327205,
+          "std": 10.974122205594727
+        },
+        "tail_ndcg": {
+          "mean": 0.021011938790451504,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative": {
+        "ndcg": {
+          "mean": 0.018945468072955905,
+          "std": 0.0
+        },
+        "accept_rate": {
+          "mean": 0.42,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.10727588775763595,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6689547300338745,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 3.1685042103076757,
+          "std": 0.47028857783767114
+        },
+        "tail_ndcg": {
+          "mean": 0.021412649318921784,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.5047619047619047,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.0,
+          "std": 0.0
+        }
+      },
+      "Speculative+Pool": {
+        "ndcg": {
+          "mean": 0.015021528155338535,
+          "std": 1.734723475976807e-18
+        },
+        "accept_rate": {
+          "mean": 0.25,
+          "std": 0.0
+        },
+        "coverage": {
+          "mean": 0.11869878321331016,
+          "std": 0.0
+        },
+        "ild": {
+          "mean": 0.6563847064971924,
+          "std": 0.0
+        },
+        "speedup": {
+          "mean": 1.5529788648335368,
+          "std": 0.4649334197163524
+        },
+        "tail_ndcg": {
+          "mean": 0.017545516038284227,
+          "std": 0.0
+        },
+        "multi_cluster_gain": {
+          "mean": 0.52,
+          "std": 0.0
+        },
+        "pool_retrieval_rate": {
+          "mean": 0.25,
+          "std": 0.0
+        }
+      }
+    }
+  }
+}
