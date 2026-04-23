@@ -12,6 +12,7 @@
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage{colortbl}
 
 \graphicspath{{../figures/}}
 
@@ -316,7 +317,7 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 
 \begin{table}[t]
 \centering
-\caption{Multi-cluster speculation ($K$ sweep, score-ratio $\tau$=0.35).}
+\caption{(S1) Multi-cluster speculation ($K$ sweep, score-ratio $\tau$=0.35).}
 \label{tab:s1}
 \small
 \begin{tabular}{ll ccccc}
@@ -325,19 +326,19 @@ MIND-small~\cite{mind2020} & 8,449 & 4,027 & 50K & News \\
 \midrule
 \multirow{4}{*}{ML-1M}
 & 1 & .105 & 79.6\% & 2.2$\times$ & 0\% \\
-& 3 & .091 & 91.4\% & 2.2$\times$ & 53.2\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .091 & \cellcolor{gray!15} 91.4\% & \cellcolor{gray!15} 2.2$\times$ & \cellcolor{gray!15} 53.2\% \\
 & 5 & .093 & 94.2\% & 1.0$\times$ & 64.1\% \\
 & 7 & .090 & 96.0\% & 1.0$\times$ & 67.9\% \\
 \midrule
 \multirow{4}{*}{A-Elec.}
 & 1 & .006 & 32.0\% & 2.6$\times$ & 0\% \\
-& 3 & .006 & 52.0\% & 3.6$\times$ & 56.5\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .006 & \cellcolor{gray!15} 52.0\% & \cellcolor{gray!15} 3.6$\times$ & \cellcolor{gray!15} 56.5\% \\
 & 5 & .005 & 64.2\% & 3.8$\times$ & 69.8\% \\
 & 7 & .004 & 76.0\% & 3.6$\times$ & 77.9\% \\
 \midrule
 \multirow{2}{*}{MIND}
 & 1 & .021 & 21.0\% & 4.7$\times$ & 0\% \\
-& 3 & .019 & 35.0\% & 3.3$\times$ & 46.9\% \\
+& \cellcolor{gray!15} 3 & \cellcolor{gray!15} .019 & \cellcolor{gray!15} 35.0\% & \cellcolor{gray!15} 3.3$\times$ & \cellcolor{gray!15} 46.9\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -351,7 +352,7 @@ Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases a
 
 \begin{table}[t]
 \centering
-\caption{Acceptance criterion comparison ($K$=3). Only score-ratio enables MCG.}
+\caption{(S2) Acceptance criterion comparison ($K$=3). Only score-ratio enables MCG.}
 \label{tab:s2}
 \small
 \begin{tabular}{ll cccc}
@@ -360,12 +361,12 @@ Table~\ref{tab:s1} shows that multi-cluster speculation consistently increases a
 \midrule
 \multirow{3}{*}{ML-1M}
 & Cosine & .093 & 99.4\% & 0\% \\
-& ScoreRatio & .090 & 97.0\% & \textbf{55.1\%} \\
+& \cellcolor{gray!15} ScoreRatio & \cellcolor{gray!15} .090 & \cellcolor{gray!15} 97.0\% & \cellcolor{gray!15} \textbf{55.1\%} \\
 & Heuristic & .100 & 77.4\% & 0\% \\
 \midrule
 \multirow{3}{*}{A-Elec.}
 & Cosine & .006 & 99.8\% & 0\% \\
-& ScoreRatio & .004 & 71.0\% & \textbf{54.4\%} \\
+& \cellcolor{gray!15} ScoreRatio & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 71.0\% & \cellcolor{gray!15} \textbf{54.4\%} \\
 & Heuristic & .007 & 9.0\% & 0\% \\
 \bottomrule
 \end{tabular}
@@ -380,7 +381,7 @@ The cosine criterion trivially accepts all requests (zero MCG). The heuristic is
 
 \begin{table}[t]
 \centering
-\caption{Pareto front on ML-1M (score-ratio, $K$=3). Fresh NDCG: 0.165.}
+\caption{(S3) Pareto front on ML-1M (score-ratio, $K$=3). Fresh NDCG: 0.165.}
 \label{tab:s3}
 \small
 \begin{tabular}{lccccc}
@@ -389,6 +390,7 @@ $\tau$ & NDCG & Accept & Speedup & MCG & Cov. \\
 \midrule
 0.05 & .091 & 100\% & 2.3$\times$ & 55.8\% & .044 \\
 0.20 & .091 & 99.0\% & 1.5$\times$ & 55.8\% & .044 \\
+\rowcolor{gray!15}
 0.35 & .091 & 91.4\% & 1.6$\times$ & 53.2\% & .048 \\
 0.50 & .104 & 69.8\% & 1.2$\times$ & 43.0\% & .082 \\
 0.60 & \textbf{.119} & 48.0\% & 0.9$\times$ & 45.4\% & \textbf{.133} \\
@@ -412,7 +414,7 @@ Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\
 
 \begin{table}[t]
 \centering
-\caption{Pool retrieval vs static cache ($K$=3, $\tau$=0.35). Pool consistently improves coverage 1.1--3.9$\times$. On Electronics, pool approaches fresh-model NDCG.}
+\caption{(S5) Pool retrieval vs static cache ($K$=3, $\tau$=0.35). Pool consistently improves coverage 1.1--3.9$\times$. On Electronics, pool approaches fresh-model NDCG.}
 \label{tab:s5}
 \small
 \begin{tabular}{ll cccc}
@@ -422,22 +424,22 @@ Table~\ref{tab:s3} and Figure~\ref{fig:pareto} show a smooth Pareto front. At $\
 \multirow{3}{*}{ML-1M}
 & Fresh & .165 & --- & 1$\times$ & .206 \\
 & Static & .091 & 91\% & 2.0$\times$ & .048 \\
-& Pool & .088 & 94\% & 1.0$\times$ & \textbf{.053} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .088 & \cellcolor{gray!15} 94\% & \cellcolor{gray!15} 1.0$\times$ & \cellcolor{gray!15} \textbf{.053} \\
 \midrule
 \multirow{3}{*}{A-Elec.}
 & Fresh & .009 & --- & 1$\times$ & .058 \\
 & Static & .006 & 52\% & 3.3$\times$ & .026 \\
-& Pool & \textbf{.007} & 61\% & 3.4$\times$ & \textbf{.067} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} \textbf{.007} & \cellcolor{gray!15} 61\% & \cellcolor{gray!15} 3.4$\times$ & \cellcolor{gray!15} \textbf{.067} \\
 \midrule
 \multirow{3}{*}{A-Arts}
 & Fresh & .004 & --- & 1$\times$ & .053 \\
 & Static & .002 & 97\% & 7.6$\times$ & .010 \\
-& Pool & .004 & 98\% & 3.2$\times$ & \textbf{.039} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 98\% & \cellcolor{gray!15} 3.2$\times$ & \cellcolor{gray!15} \textbf{.039} \\
 \midrule
 \multirow{3}{*}{MIND}
 & Fresh & .018 & --- & 1$\times$ & .119 \\
 & Static & .019 & 35\% & 4.0$\times$ & .091 \\
-& Pool & .017 & 23\% & 2.4$\times$ & \textbf{.113} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .017 & \cellcolor{gray!15} 23\% & \cellcolor{gray!15} 2.4$\times$ & \cellcolor{gray!15} \textbf{.113} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -458,7 +460,7 @@ Table~\ref{tab:s5} and Figure~\ref{fig:coverage} reveal the core tradeoff. Pool 
 
 \begin{table}[t]
 \centering
-\caption{End-to-end comparison. Best cached NDCG in \textbf{bold}; best cached coverage \underline{underlined}. $\pm$std from 3 runs.}
+\caption{(S4) End-to-end comparison. Best cached NDCG in \textbf{bold}; best cached coverage \underline{underlined}. $\pm$std from 3 runs.}
 \label{tab:s4}
 \small
 \begin{tabular}{ll ccccc}
@@ -470,28 +472,29 @@ Table~\ref{tab:s5} and Figure~\ref{fig:coverage} reveal the core tradeoff. Pool 
 & Naive & .098 & 100\% & 10$\times$ & 0\% & .054 \\
 & QA-byp. & \textbf{.107} & 78\% & 3.3$\times$ & 0\% & .056 \\
 & Spec. & .095 & 91\% & 1.6$\times$ & 55\% & .056 \\
-& Sp.+Pool & .094 & 93\% & 0.7$\times$ & 60\% & \underline{.062} \\
+\rowcolor{gray!15}
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .094 & \cellcolor{gray!15} 93\% & \cellcolor{gray!15} 0.7$\times$ & \cellcolor{gray!15} 60\% & \cellcolor{gray!15} \underline{.062} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{A-Elec.}}
 & Fresh & .011 & --- & 1$\times$ & --- & .063 \\
 & Naive & .005 & 100\% & 35$\times$ & 0\% & .011 \\
 & QA-byp. & .008 & 9\% & 2.5$\times$ & 0\% & .046 \\
 & Spec. & \textbf{.010} & 59\% & 3.1$\times$ & 56\% & .028 \\
-& Sp.+Pool & .007 & 60\% & 2.0$\times$ & 61\% & \underline{.074} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .007 & \cellcolor{gray!15} 60\% & \cellcolor{gray!15} 2.0$\times$ & \cellcolor{gray!15} 61\% & \cellcolor{gray!15} \underline{.074} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{A-Arts}}
 & Fresh & .004 & --- & 1$\times$ & --- & .051 \\
 & Naive & .002 & 100\% & 50$\times$ & 0\% & .010 \\
 & QA-byp. & \textbf{.004} & 65\% & 3.0$\times$ & 0\% & .027 \\
 & Spec. & .002 & 96\% & 6.7$\times$ & 64\% & .010 \\
-& Sp.+Pool & .004 & 96\% & 3.6$\times$ & 62\% & \underline{.036} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} .004 & \cellcolor{gray!15} 96\% & \cellcolor{gray!15} 3.6$\times$ & \cellcolor{gray!15} 62\% & \cellcolor{gray!15} \underline{.036} \\
 \midrule
 \multirow{5}{*}{\rotatebox{90}{MIND}}
 & Fresh & .014 & --- & 1$\times$ & --- & .113 \\
 & Naive & .010 & 100\% & 52$\times$ & 0\% & .050 \\
 & QA-byp. & .013 & 28\% & 3.7$\times$ & 0\% & .111 \\
 & Spec. & \textbf{.014} & 32\% & 3.8$\times$ & 49\% & .095 \\
-& Sp.+Pool & \textbf{.014} & 26\% & 2.1$\times$ & 49\% & \underline{.106} \\
+& \cellcolor{gray!15} Sp.+Pool & \cellcolor{gray!15} \textbf{.014} & \cellcolor{gray!15} 26\% & \cellcolor{gray!15} 2.1$\times$ & \cellcolor{gray!15} 49\% & \cellcolor{gray!15} \underline{.106} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -518,7 +521,7 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 
 \begin{table}[t]
 \centering
-\caption{Semantic vs random clustering. Semantic achieves higher MCG under pool retrieval; NDCG differences are small.}
+\caption{(S6) Semantic vs random clustering. Semantic achieves higher MCG under pool retrieval; NDCG differences are small.}
 \label{tab:s6}
 \small
 \begin{tabular}{ll cccc}
@@ -528,19 +531,19 @@ Key observations from Table~\ref{tab:s4} and Figure~\ref{fig:s4all}. \emph{All e
 \multirow{4}{*}{ML-1M}
 & Sem.+Static & .091 & 91.4\% & 53.2\% \\
 & Rand.+Static & .097 & 90.8\% & 50.4\% \\
-& Sem.+Pool & .088 & 94.2\% & \textbf{56.7\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .088 & \cellcolor{gray!15} 94.2\% & \cellcolor{gray!15} \textbf{56.7\%} \\
 & Rand.+Pool & .090 & 92.8\% & 50.2\% \\
 \midrule
 \multirow{4}{*}{A-Elec.}
 & Sem.+Static & .006 & 52.0\% & 56.5\% \\
 & Rand.+Static & .008 & 54.0\% & 59.3\% \\
-& Sem.+Pool & .007 & 61.2\% & \textbf{65.7\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .007 & \cellcolor{gray!15} 61.2\% & \cellcolor{gray!15} \textbf{65.7\%} \\
 & Rand.+Pool & .006 & 62.0\% & 56.5\% \\
 \midrule
 \multirow{4}{*}{MIND}
 & Sem.+Static & .019 & 35.0\% & 46.9\% \\
 & Rand.+Static & .018 & 32.2\% & 51.6\% \\
-& Sem.+Pool & .017 & 22.8\% & \textbf{51.8\%} \\
+& \cellcolor{gray!15} Sem.+Pool & \cellcolor{gray!15} .017 & \cellcolor{gray!15} 22.8\% & \cellcolor{gray!15} \textbf{51.8\%} \\
 & Rand.+Pool & .018 & 21.4\% & 48.6\% \\
 \bottomrule
 \end{tabular}
@@ -555,7 +558,7 @@ Table~\ref{tab:s6} shows that while NDCG differences between semantic and random
 
 \begin{table}[t]
 \centering
-\caption{Pool size sweep on ML-1M. Coverage grows with pool size; NDCG and acceptance are stable.}
+\caption{(S7) Pool size sweep on ML-1M. Coverage grows with pool size; NDCG and acceptance are stable.}
 \label{tab:s7}
 \small
 \begin{tabular}{lcccc}
@@ -564,6 +567,7 @@ $|\mathcal{P}|$ & NDCG & Accept & MCG & Cov. \\
 \midrule
 50 & \textbf{.096} & 95.4\% & 49.7\% & .050 \\
 100 & .091 & 95.0\% & 54.5\% & .050 \\
+\rowcolor{gray!15}
 200 & .088 & 94.2\% & 56.7\% & .053 \\
 500 & .089 & 94.0\% & 57.7\% & \textbf{.053} \\
 \bottomrule
@@ -582,7 +586,7 @@ The temperature $T$ in the score-ratio criterion (Eq.~\ref{eq:score_ratio}) cont
 
 \begin{table}[t]
 \centering
-\caption{Temperature sensitivity on ML-1M ($K$=3, $\tau$=0.35). Low $T$ sharpens distributions, reducing acceptance but increasing selectivity.}
+\caption{(A1) Temperature sensitivity on ML-1M ($K$=3, $\tau$=0.35). Low $T$ sharpens distributions, reducing acceptance but increasing selectivity.}
 \label{tab:a1}
 \small
 \begin{tabular}{lccc}
@@ -591,6 +595,7 @@ $T$ & NDCG & Accept & MCG \\
 \midrule
 0.1 & .103 & 15.5\% & 66.2\% \\
 0.5 & .101 & 49.9\% & 55.6\% \\
+\rowcolor{gray!15}
 1.0 & .103 & 91.2\% & 55.4\% \\
 2.0 & .103 & 100\% & 53.0\% \\
 5.0 & .103 & 100\% & 52.5\% \\
@@ -605,7 +610,7 @@ We partition ML-1M test users by interaction count into cold ($<$10 interactions
 
 \begin{table}[t]
 \centering
-\caption{User activity breakdown on ML-1M. Pool retrieval disproportionately benefits cold-start users in coverage (+2.6$\times$).}
+\caption{(A2) User activity breakdown on ML-1M. Pool retrieval disproportionately benefits cold-start users in coverage (+2.6$\times$).}
 \label{tab:a2}
 \small
 \begin{tabular}{ll ccc}
@@ -614,15 +619,15 @@ We partition ML-1M test users by interaction count into cold ($<$10 interactions
 \midrule
 \multirow{2}{*}{Cold ($<$10)}
 & Static & \textbf{.162} & 69.7\% & .026 \\
-& Pool & .132 & 66.4\% & \textbf{.068} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .132 & \cellcolor{gray!15} 66.4\% & \cellcolor{gray!15} \textbf{.068} \\
 \midrule
 \multirow{2}{*}{Medium}
 & Static & \textbf{.123} & 89.1\% & .028 \\
-& Pool & .068 & 87.0\% & \textbf{.047} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .068 & \cellcolor{gray!15} 87.0\% & \cellcolor{gray!15} \textbf{.047} \\
 \midrule
 \multirow{2}{*}{Active ($\geq$50)}
 & Static & \textbf{.076} & 99.4\% & .038 \\
-& Pool & .050 & 98.8\% & \textbf{.079} \\
+& \cellcolor{gray!15} Pool & \cellcolor{gray!15} .050 & \cellcolor{gray!15} 98.8\% & \cellcolor{gray!15} \textbf{.079} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -637,7 +642,7 @@ We vary the number of clusters $C \in \{10, 25, 50, 100\}$ on ML-1M.
 
 \begin{table}[t]
 \centering
-\caption{Cluster count sensitivity on ML-1M. More clusters increase MCG and coverage but slightly reduce NDCG.}
+\caption{(A4) Cluster count sensitivity on ML-1M. More clusters increase MCG and coverage but slightly reduce NDCG.}
 \label{tab:a4}
 \small
 \begin{tabular}{lcccc}
@@ -646,6 +651,7 @@ $C$ & NDCG & Accept & MCG & Cov. \\
 \midrule
 10 & \textbf{.097} & 88.7\% & 50.4\% & .030 \\
 25 & .102 & 91.5\% & 53.9\% & .027 \\
+\rowcolor{gray!15}
 50 & .098 & 91.1\% & 56.0\% & .041 \\
 100 & .092 & 92.5\% & \textbf{57.1\%} & \textbf{.061} \\
 \bottomrule
@@ -691,8 +697,8 @@ We implement a simplified CARL-like DQN policy that learns to serve cached vs co
 \multirow{4}{*}{ML-1M}
 & Fresh & .147 & --- & 1$\times$ & .181 \\
 & CARL-like (RL) & .101 & 93\% & 11$\times$ & .047 \\
-& Spec.\ (ours) & \textbf{.102} & 85\% & 1.5$\times$ & .027 \\
-& Sp.+Pool (ours) & .093 & 84\% & 0.7$\times$ & \textbf{.062} \\
+& \cellcolor{gray!15} Spec.\ (ours) & \cellcolor{gray!15} \textbf{.102} & \cellcolor{gray!15} 85\% & \cellcolor{gray!15} 1.5$\times$ & \cellcolor{gray!15} .027 \\
+& \cellcolor{gray!15} Sp.+Pool (ours) & \cellcolor{gray!15} .093 & \cellcolor{gray!15} 84\% & \cellcolor{gray!15} 0.7$\times$ & \cellcolor{gray!15} \textbf{.062} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -701,46 +707,44 @@ We implement a simplified CARL-like DQN policy that learns to serve cached vs co
 We replace the base MF model with NeuMF~\cite{he2017ncf} on ML-1M ($K$=3, $\tau$=0.35). MF Fresh NDCG=0.153, Spec NDCG=0.118 (77\% retention, 81\% accept, MCG 54\%). NeuMF Fresh NDCG=0.092, Spec NDCG=0.074 (80\% retention, 100\% accept, MCG 49\%); NeuMF's flatter score distributions cause the score-ratio criterion to accept all requests at this threshold, confirming the framework degrades gracefully to the naive cache under high-entropy models. MCG (49--54\%) is consistent across both models, confirming that multi-cluster gain is a consistent empirical pattern of the score-ratio criterion, not a consequence of the base recommender's sharpness.
 
 \paragraph{Scale-Out and GNN Backbone.}
-On MIND-large (72K users $\times$ 21K articles after 5-core, 3 seeds), speculative serving achieves 83\% NDCG retention, 100\% acceptance, MCG=60\%, and 9.45$\times$ speedup; on Amazon Movies-and-TV (86K users $\times$ 33K items, very sparse) the pool variant lifts NDCG +136\% at 53\% acceptance. Replacing MF with LightGCN~\cite{lightgcn2020} (3 GCN layers) drops MCG to 23\% on ML-1M and 6\% on A-Electronics with $\sim$100\% acceptance: GNN-induced geometric concentration makes the nearest cluster nearly always sufficient, demonstrating the framework auto-adapts---homogeneous embeddings reduce to single-cluster acceptance while heterogeneous models exploit MCG.
+On MIND-large (72K users $\times$ 21K articles after 5-core, 3 seeds), speculative serving achieves 83\% NDCG retention, 100\% acceptance, MCG=60\%, and 9.45$\times$ speedup; on Amazon Movies-and-TV (86K users $\times$ 33K items, very sparse) the pool variant lifts NDCG +136\% at 53\% acceptance. Replacing MF with LightGCN~\cite{lightgcn2020} (3 GCN layers) drops MCG to 23\% on ML-1M and 6\% on A-Electronics with $\sim$100\% acceptance: GNN-induced geometric concentration makes the nearest cluster nearly always sufficient, so the framework reduces to single-cluster acceptance under homogeneous embeddings.
 
 \paragraph{Inference Latency Scaling.}
 To project speedup beyond our datasets' catalog sizes, we tile ML-1M MF item embeddings to synthetic catalogs of $10^3$--$10^5$ items (3 seeds). Speculative latency is near-constant (0.14ms) while fresh CPU inference scales linearly: 0.10ms (3.7K)$\to$1.40ms (50K)$\to$3.92ms (100K). Speedup grows from 0.4$\times$ at 1K items to 27.6$\times$ at 100K. This synthetic scaling suggests speculative serving is most valuable for large-catalog systems; real-world speedup will depend on model and hardware.
 
 \paragraph{LLM Embeddings as Backbone.}
-Substituting MF item/user embeddings with Gemma-4-E2B-derived embeddings~\cite{gemma4_2025} (1536-dim mean-pool of titles, PCA-projected to 64-dim) feeds the same pipeline unchanged. On ML-1M (3 seeds), \emph{hybrid} mode (Gemma clusters + MF recs) achieves NDCG=0.145 (92.6\% retention) at 10.7\% acceptance---the score-ratio criterion is stricter in semantic space, yielding higher quality per accept. Critically, MCG rises from 51.9\% (MF) to 63.8\% (Gemma-4): richer semantic embeddings produce more diverse clusters, strengthening the multi-cluster gain property. The pipeline requires \emph{no code changes}.
+Substituting MF item/user embeddings with Gemma-4-E2B-derived embeddings~\cite{gemma4_2025} (1536-dim mean-pool of titles, PCA-projected to 64-dim) feeds the same pipeline unchanged. On ML-1M (3 seeds), \emph{hybrid} mode (Gemma clusters + MF recs) achieves NDCG=0.145 (92.6\% retention) at 10.7\% acceptance---the score-ratio criterion is stricter in semantic space, yielding higher quality per accept. Critically, MCG rises from 51.9\% (MF) to 63.8\% (Gemma-4): richer semantic embeddings produce more diverse clusters, strengthening the multi-cluster gain property.
 
 \paragraph{Competitor Baselines.}
-We compare against four systems spanning retrieval, two-tower, and speculative-decoding paradigms. \emph{Two-tower retrieve-and-rerank}: a lightweight MF ($d$=16) retrieves top-100 candidates, re-ranked by the full MF ($d$=64). On ML-1M, TwoTower-16 achieves NDCG=0.137 (87\% retention) at 8.8$\times$ speedup---\emph{faster and higher quality} than Spec~K=3 (0.102, 5.4$\times$). On Amazon~Electronics (sparse), the gap narrows: TwoTower-16 NDCG=0.008 (55\% retention) versus Spec~K=3's 0.012 (80\%)---speculative serving preserves more quality on sparse data because the acceptance criterion uses the full bias-aware score function, while the small retrieval model's bias terms are less accurate. \emph{FAISS retrieval}: on ML-1M, FAISS Flat is faster (0.07ms) with comparable NDCG (0.100 vs 0.102); on Electronics, Spec wins on quality (0.012 vs 0.005). \emph{BiLD-style draft}~\cite{leviathan2023}: 55\% accept vs RecCache's 91\%---1.7$\times$ more throughput without extra training. \emph{LASER-relaxed}~\cite{laser2025}: mean ratio accepts 100\% (NDCG=0.105) vs product rule's 91\% (NDCG=0.107)---stricter selection marginally improves quality.
+We compare against four systems spanning retrieval, two-tower, and speculative-decoding paradigms. \emph{Two-tower retrieve-and-rerank} (lightweight MF $d$=16 retrieves top-100, re-ranked by full MF $d$=64) is faster and higher quality on ML-1M (NDCG 0.137 at 8.8$\times$ vs Spec~K=3's 0.102 at 5.4$\times$), while Spec~K=3 preserves more quality on sparse Amazon Electronics (0.012 vs 0.008)---the score-ratio criterion uses the full bias-aware scores, whereas the small retrieval model's bias terms are less accurate. \emph{FAISS Flat} matches on ML-1M (0.100 vs 0.102 at 0.07ms) but loses on Electronics (0.005 vs 0.012). \emph{BiLD-style draft}~\cite{leviathan2023} achieves 55\% acceptance vs RecCache's 91\% without extra training. \emph{LASER-relaxed}~\cite{laser2025} mean-ratio accepts 100\% (NDCG 0.105) vs product-rule's 91\% (NDCG 0.107).
 
 \paragraph{Statistical Significance.}
-Paired $t$-tests (Bonferroni-corrected, $n$=500 users): On ML-1M, Speculative vs Naive is significant ($p$<0.001), confirming the score-ratio criterion improves over blind caching. On Electronics, Speculative vs Fresh is \emph{not} significant ($p$=0.11), confirming quality is preserved on sparse data. On MIND, Spec+Pool vs Fresh is not significant ($p$=1.0).
+Paired $t$-tests (Bonferroni-corrected, $n$=500): Speculative vs Naive is significant on ML-1M ($p$<0.001); Speculative vs Fresh is not significant on Electronics ($p$=0.11) or MIND ($p$=1.0), confirming quality is preserved on sparse data.
 
 \paragraph{Online Serving Replay.}
-We replay 1,188 ML-1M test requests in temporal order, comparing six serving policies: Fresh, Popularity (global top-$N$), FAISS, Naive cache, Spec~K=3, and Spec+Pool. Beyond NDCG, we report CTR proxy (fraction of recs matching held-out test interactions---a standard offline evaluation protocol for replay-based serving~\cite{he2017ncf}) and novelty ($-\log_2 \text{pop}$). Popularity wins on CTR (0.169) due to ML-1M's strong popularity bias but has the lowest novelty (8.6); Fresh NDCG=0.159, CTR=0.145, novelty=10.1. Spec~K=3 (0.100, 0.094, 9.7) is comparable to FAISS (0.104, 0.099, 10.6) and Naive (0.099, 0.091, 9.7). Rolling 200-request windows show no temporal drift. Under 3 random orderings, all metrics are order-invariant ($\sigma_{\text{NDCG}}{=}0.001$).
+We replay 1,188 ML-1M test requests in temporal order, comparing six serving policies: Fresh, Popularity (global top-$N$), FAISS, Naive cache, Spec~K=3, and Spec+Pool. Beyond NDCG, we report CTR proxy (fraction of recs matching held-out test interactions---a standard offline evaluation protocol for replay-based serving~\cite{he2017ncf}) and novelty ($-\log_2 \text{pop}$). Popularity wins on CTR (0.169) due to ML-1M's popularity bias but has the lowest novelty; Spec~K=3 is comparable to FAISS and Naive across NDCG/CTR/novelty. Rolling 200-request windows show no temporal drift, and under 3 random orderings all metrics are order-invariant ($\sigma_{\text{NDCG}}{=}0.001$).
 
 \paragraph{Cache Refresh Sensitivity.}
 We split ML-1M test users into 6 temporal windows and compare refresh frequencies: never, every 3/2/1 windows. On this stable-interest dataset, NDCG varies by $<$0.002 and acceptance stays at $\sim$92\% regardless of refresh schedule. Intra-cluster cosine purity is constant (0.530) and recommendation overlap is stable (0.515--0.552). This confirms the $\epsilon$-bound prediction: when user preferences are stationary, re-clustering adds no benefit. Non-stationary domains (e.g., news) may require periodic refresh, which the framework supports at the cost of one K-Means re-fit per period.
 
 \paragraph{Beyond NDCG.}
-Six ranking metrics on ML-1M (3 seeds, Spec K=3 retention vs Fresh): NDCG 65\%, Recall@10 62\%, HR@10 76\%, MRR 67\%, MAP 68\%, ILD 98\%---all dimensions degrade proportionally, not just NDCG. On Amazon Electronics: NDCG 80\%, Recall 79\%, HR 84\%, MRR 79\%, MAP 79\%, ILD 91\%.
+Across six ranking metrics (Spec K=3 retention vs Fresh, 3 seeds), all dimensions degrade proportionally: ML-1M retains 62--98\% (NDCG/Recall/HR/MRR/MAP/ILD), A-Electronics 79--91\%.
 
 \paragraph{Long-tail and Fairness.}
-Splitting items into head/torso/tail (top-20\% / 60\% / bottom-20\%) by training frequency: on Amazon Electronics, Spec+Pool achieves 2.6$\times$ catalog coverage versus Fresh (3.8\%$\to$9.7\%) and reduces the recommendation-frequency Gini from 0.996 to 0.966; on ML-1M, pool retrieval raises Spec coverage from 1.8\% (static) to 6.2\%, a 3.4$\times$ increase within the caching framework. Per-cluster acceptance fairness (1500 ML-1M users) yields a Gini of 0.262 across 49 clusters---no cluster is starved.
+On Amazon Electronics, Spec+Pool achieves 2.6$\times$ catalog coverage versus Fresh (3.8\%$\to$9.7\%) and reduces the recommendation-frequency Gini from 0.996 to 0.966; on ML-1M, pool retrieval raises Spec coverage 3.4$\times$ (1.8\%$\to$6.2\%). Per-cluster acceptance fairness yields a Gini of 0.262 across 49 clusters---no cluster is starved.
 
 \paragraph{Limitations.}
-Speedup at small catalogs is modest (1.5--3.8$\times$) since MF inference is already $\sim$0.1ms; our latency-scaling experiment shows speedup grows to 27$\times$ at 100K items, and GPU generative recommenders with 5--50ms inference would gain proportionally more. Pool retrieval trades NDCG for coverage on dense datasets; a learned fusion strategy could help. The $\epsilon$-bound assumes stationarity; concept drift requires periodic re-clustering.
+Speedup is modest at small catalogs (MF inference is already $\sim$0.1ms) but grows to 27$\times$ at 100K items; pool retrieval trades NDCG for coverage on dense data; the $\epsilon$-bound assumes stationarity and concept drift requires periodic re-clustering.
 
 \paragraph{Hyperparameters and Reproducibility.}
-MF with BPR loss~\cite{koren2009matrix} ($d$=64, 15 epochs, lr 0.001), online K-Means ($C$=50), score-ratio ($T$=1.0, $\tau$=0.35, $K$=3), pool size 200. Datasets: ML-1M (6.0K users / 3.7K items / 800K interactions / 3.57\% density); A-Elec.\ (17.9K / 9.8K / 119K / 0.07\%); A-Arts (10.1K / 7.8K / 57K / 0.07\%); MIND-small (29.4K / 15.1K / 200K / 0.05\%). CPU only (i9-14900HX, 64GB), $\sim$2 min train per dataset. All numbers are 3-seed averages.
+MF with BPR loss~\cite{koren2009matrix} ($d$=64, 15 epochs, lr 0.001), online K-Means ($C$=50), score-ratio ($T$=1.0, $\tau$=0.35, $K$=3), pool size 200. Dataset statistics are reported in Table~\ref{tab:datasets}. CPU only (i9-14900HX, 64GB), $\sim$2 min train per dataset. All numbers are 3-seed averages.
 
 
 %======================================================================
 \section{Conclusion}
 %======================================================================
 
-We introduced speculative recommendation serving, establishing a principled connection between speculative decoding and recommendation caching. The score-ratio acceptance criterion enables multi-cluster speculation, recovering 43--64\% additional cache hits from non-nearest clusters---a consistent empirical pattern supported across MF, NeuMF, LightGCN, and Gemma-4 backbones on six datasets (up to 86K users). Embedding pool retrieval increases catalog coverage up to 2.6$\times$ on sparse data with reduced recommendation-frequency Gini. In controlled comparisons, the criterion is competitive with FAISS retrieval, and in some sparse settings achieves higher quality, while requiring no learned policies. The empirically supported $\epsilon$-bound (Spearman $\rho=-0.655$) provides a principled characterization of the quality--speed tradeoff. Speculative latency is near-constant, with speedup scaling linearly in catalog size---a property most valuable for large-catalog production systems. Unlike learned caching policies, our framework is training-free and directly applicable to existing recommendation systems.
-
-\textbf{Reproducibility}: Code available at \url{[anonymous]}.
+We introduced speculative recommendation serving, a principled connection between speculative decoding and recommendation caching. The score-ratio acceptance criterion enables multi-cluster speculation, recovering 43--64\% additional cache hits from non-nearest clusters---a consistent empirical pattern across MF, NeuMF, LightGCN, and Gemma-4 backbones on six datasets (up to 86K users). Embedding pool retrieval raises catalog coverage up to 2.6$\times$ on sparse data with reduced recommendation-frequency Gini. The $\epsilon$-bound (Spearman $\rho=-0.655$) characterizes the quality--speed tradeoff, and speculative latency is near-constant with speedup scaling in catalog size. Unlike learned caching policies, the framework is training-free and directly applicable to existing recommendation systems. Code: \url{https://anonymous.4open.science/r/RecCache-87C3/}.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{../references}
